@@ -1,0 +1,18 @@
+{
+  "name": "accounts",
+  "version": "0.1.0",
+  "description": "Simple accounts, SOO style",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src/main src/test -d target",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "paulb@ashridgetech.com",
+  "license": "None",
+  "devDependencies": {
+    "babel-cli": "^6.3.17"
+  },
+  "dependencies": {
+    "rx": "^4.0.7"
+  }
+}

@@ -1,0 +1,32 @@
+Notes
+=====
+
+- find function
+- scan function
+
+- keep latest idea - transactions, accounts
+  - may involve a map or database underneath
+- need to be able to delete and/or deactivate ref entities used in old transactions but no longer used
+
+- symbol for DR/CR
+- object for balance - decimal plus DR/CR
+
+- save filter streams in obj, return in getter
+- cache streams with subject
+
+- VAT rate is an event with date when came into effect
+
+- Bookkeeping event and transaction with postings are different things
+- May apply a rule or an ad-hoc posting interpretation to each event
+- Rule definitions are ref data inputs
+- Applications of rules to events to produce transactions are additional inputs
+
+Patterns
+--------
+- look for patterns for scanning and saving
+- running total
+- running list
+- denormalize with chosen items from parent
+- add id to incoming event
+
+
