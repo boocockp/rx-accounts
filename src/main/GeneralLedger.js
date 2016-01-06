@@ -1,4 +1,5 @@
 import Account from './Account';
+import TrialBalance from './TrialBalance';
 import Rx from 'rx';
 
 let lastId = 1000;
@@ -7,7 +8,10 @@ export default class GeneralLedger {
 
     constructor() {
         this.accountDetails = new Rx.ReplaySubject();
-        this.accountDetailsWithIds = this.addIds(this.accountDetails);
+        this.accountDetailsWithIds = new Rx.ReplaySubject();
+        this.addIds(this.accountDetails).subscribe(this.accountDetailsWithIds);
+        this.allAccountIds = this.accountDetailsWithIds.scan( (acc, x) => acc.add(x.id), new Set());
+
         this.transactionDetails = new Rx.ReplaySubject();
         this.transactionDetailsWithIds = this.addIds(this.transactionDetails);
 
@@ -15,11 +19,17 @@ export default class GeneralLedger {
     }
 
     accounts() {
-      // //
+      let idToAccount = (id) => this.account(id);
+      let idSetToAccounts = (idSet) => [...idSet].map(idToAccount);
+      return this.allAccountIds.map(idSetToAccounts);
     }
 
     account(id) {
         return new Account(id, this.accountDetailsWithIds, this.transactionDetailsWithIds);
+    }
+
+    trialBalance() {
+        return new TrialBalance(this.accounts());
     }
 
     addIds(details) {

@@ -1,4 +1,5 @@
 import Rx from 'rx';
+const combineLatest = Rx.Observable.combineLatest;
 
 function flattenPostings(tran) {
     return tran.postings.map( t => Object.assign({}, t, {description: tran.description, date: tran.date}));
@@ -10,12 +11,11 @@ function allAsList(stream) {
     return result;
 }
 
+
 export default class Account {
     constructor(id, accountDetails, transactionDetails) {
         this.id = id;
-        this.accountDetails = new Rx.BehaviorSubject();
-        accountDetails.filter((x) => x.id == this.id).subscribe(this.accountDetails);
-
+        this.accountDetails = accountDetails.filter((x) => x.id == this.id);
         this.accountPostings = transactionDetails.flatMap(flattenPostings).filter( p => p.accountId == this.id);
         this.accountPostingsList = allAsList(this.accountPostings);
     }
@@ -38,5 +38,9 @@ export default class Account {
 
     get balance() {
         return this.creditTotal.combineLatest(this.debitTotal, (cr, dr) => cr - dr);
+    }
+
+    get summary() {
+        return combineLatest(this.accountDetails.pluck('name'), this.balance, (name, balance) => {name, balance})
     }
 }

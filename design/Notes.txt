@@ -21,12 +21,17 @@ Notes
 - Rule definitions are ref data inputs
 - Applications of rules to events to produce transactions are additional inputs
 
+- BehaviorSubjects: don't scatter them around for no reason
+
 Patterns
 --------
 - look for patterns for scanning and saving
 - running total
 - running list
+- running set of ids
 - denormalize with chosen items from parent
+- extract set of properties
+- extract set of properties into combineLatest
 - add id to incoming event
 
 

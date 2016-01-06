@@ -1,0 +1,29 @@
+SOOP
+====
+
+- SOO methods can return a stream of values (may be structured), another SOO
+- Maybe: SOO methods can return a list of SOOs, or a stream of SOOs
+  - but if list can change, needs to be a stream of lists of SOOs eg allAccounts()
+- Poss: no need to have reduced "summary" objects, as expensive parts only instantiated if needed anyway?
+
+- May need to materialize a SOO to decide whether to include it in a filtered view eg accounts with non-zero balances for trial balance
+- When select or project from a set of SOOs, need to recalculate when either the membership of original set changes, OR any of the SOOs change
+- Poss: combineLatest on streams from each member of full set with spread function
+- Poss: filter each stream, merge?
+
+- BehaviorSubject advantages:
+  - cache and share a calculation
+  - provide an initial value
+
+Principles
+----------
+
+- Keep it lazy - don't calculate until you need it
+- Publish and share - once you have calculated, save it for others
+- Calculate only what you need, so it changes as few times as possible and not affected by other changes in sources
+
+Problems
+--------
+
+- Getting intermediate updates eg each posting updates trial balance separately
+  - Poss: use transaction completion or other event as tran boundary to control updates

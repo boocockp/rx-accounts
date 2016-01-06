@@ -30,9 +30,12 @@ let capital = gl.account('id_1004');
 console.log('Subscribing to all postings...');
 gl.postings.subscribe((x) => console.log('all postings', x));
 
-console.log('Subscribing to bank postings...');
+console.log('Subscribing to bank postings and balance...');
 bank.postings.subscribe((x) => console.log('bank postings', x));
 bank.balance.subscribe((x) => console.log('bank balance', x));
+
+console.log('Subscribing to trial balance...');
+gl.trialBalance().accountBalances.subscribe(x => console.log('trial balance', x));
 
 gl.transactionDetails.onNext({description: "Initial capital", date: '2012-06-30', postings: [
     {accountId: 'id_1004', amount: 500, type: 'CR'},
