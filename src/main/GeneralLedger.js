@@ -7,13 +7,14 @@ let lastId = 1000;
 export default class GeneralLedger {
 
     constructor() {
-        this.accountDetails = new Rx.ReplaySubject();
+        this.accountDetails = new Rx.Subject();
         this.accountDetailsWithIds = new Rx.ReplaySubject();
         this.addIds(this.accountDetails).subscribe(this.accountDetailsWithIds);
         this.allAccountIds = this.accountDetailsWithIds.scan( (acc, x) => acc.add(x.id), new Set());
 
-        this.transactionDetails = new Rx.ReplaySubject();
-        this.transactionDetailsWithIds = this.addIds(this.transactionDetails);
+        this.transactionDetails = new Rx.Subject();
+        this.transactionDetailsWithIds = new Rx.ReplaySubject();
+        this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
 
         this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
     }
@@ -29,7 +30,7 @@ export default class GeneralLedger {
     }
 
     trialBalance() {
-        return new TrialBalance(this.accounts());
+        return new TrialBalance(this.accounts(), this.transactionDetailsWithIds);
     }
 
     addIds(details) {

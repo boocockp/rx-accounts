@@ -3,8 +3,9 @@ const combineLatest = Rx.Observable.combineLatest;
 
 
 export default class TrialBalance {
-    constructor(accounts) {
-        this.accounts = accounts
+    constructor(accounts, transactions) {
+        this.accounts = accounts;
+        this.transactions = transactions;
     }
 
 
@@ -15,7 +16,7 @@ export default class TrialBalance {
         );
 
         let summaryListStreamStream = summaryStreamListStream.map( (summaryStreamList) => combineLatest(summaryStreamList));
-        let summaryListStream = summaryListStreamStream.switch();
+        let summaryListStream = summaryListStreamStream.switch();//.zip(this.transactions, (x, y) => x);  // TODO better way of controlling
         return summaryListStream
     }
 

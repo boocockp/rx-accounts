@@ -34,4 +34,8 @@ Patterns
 - extract set of properties into combineLatest
 - add id to incoming event
 
+ToDo
+----
+- Work out publish and replay and share to avoid messing with Subjects
+
 

@@ -41,6 +41,8 @@ export default class Account {
     }
 
     get summary() {
-        return combineLatest(this.accountDetails.pluck('name'), this.balance, (name, balance) => {name, balance})
+        function makeSummary(name, balance) { return {name: name, balance: balance} }
+        //return combineLatest(this.accountDetails.pluck('name'), this.balance, (name, balance) =>  {name: name, balance: balance});
+        return combineLatest(this.accountDetails.pluck('name'), this.balance, makeSummary)
     }
 }
