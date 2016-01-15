@@ -110,6 +110,13 @@ Observables and Observers
 - Each pair needs to track separately when it is ready
 
 
+To Do
+-----
+- Tidy duplicated code
+    - Update counting
+- wrap works for all functions
+    - wrap works in Deglitcher as well as Root
+    - know when to send control and when not to
 
 
 
