@@ -17,11 +17,19 @@ export default class TrialBalance {
 
         let summaryListStreamStream = summaryStreamListStream.map( (summaryStreamList) => combineLatest(summaryStreamList));
         let summaryListStream = summaryListStreamStream.switch();//.zip(this.transactions, (x, y) => x);  // TODO better way of controlling
-        return summaryListStream
+        return this.transactions.withLatestFrom(summaryListStream, (t, s) => s);
+        //return summaryListStream
     }
 
     get balanceTotals() {
-        return
+        return accountBalances().map( (summaryList) => {
+            let slStream = Rx.fromArray(summaryList);
+            let debit = slStream.pluck('debitBalance').sum();
+            let credit = slStream.pluck('creditBalance').sum();
+            {debit, credit}
+        });
+
+
     }
 
 }

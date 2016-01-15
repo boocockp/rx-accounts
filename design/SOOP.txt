@@ -27,3 +27,35 @@ Problems
 
 - Getting intermediate updates eg each posting updates trial balance separately
   - Poss: use transaction completion or other event as tran boundary to control updates
+
+Glitches, transactions
+----------------------
+
+- Anything that depends on multiple sources triggered directly or indirectly by an input need to know when all ready OR not going to change
+- Even if just one branch from input to output, if there is an async section in it, need to know when done eg remote lookup
+- Poss: pass update ids around
+- Poss: observe everything updated
+- Poss: pass pairs of events
+- Poss: observers tell source when finished - on callback - may be sync or async
+- Poss: streams have another type of control event: event finished
+- Poss: pass a callback around with every event
+- Poss: reference counting for outstanding observers
+- Poss: timeout for processing
+- Poss: pass wrapped events through normal Rx
+- Poss: If need to do remote call  and emit event  when finished, need to wait for both
+- Poss: ref count inc when accept a value, decrement when finished with it, either pass it on or not
+- Poss: each observable knows how many subscribers it has, has to decide when done
+- What if: input causes calc on one branch, async lookup on another, and these are combined?
+- What if: one input has async lookup before complete, other input direct and gets to end before first - need all inputs to be done?
+
+Ref counts
+----------
+- Pass a ref counter along with each value
+- When an observer accepts a value, inc the ref count
+- When an observer finishes with a value, decrement the ref count - whether passed on or not
+- If decision whether to pass on is made async, cannot decrement ref count until decision made
+- When ref count back to zero, can emit the finished value
+
+Wrapping with counting observable
+---------------------------------
+- Create one around any normal observable

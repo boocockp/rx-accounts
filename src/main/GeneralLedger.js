@@ -17,6 +17,8 @@ export default class GeneralLedger {
         this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
 
         this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
+
+        this._inputComplete = Rx.Subject();
     }
 
     accounts() {
@@ -30,7 +32,7 @@ export default class GeneralLedger {
     }
 
     trialBalance() {
-        return new TrialBalance(this.accounts(), this.transactionDetailsWithIds);
+        return new TrialBalance(this.accounts(), this.transactionDetailsWithIds);    // TODO should be just one shared instance?
     }
 
     addIds(details) {

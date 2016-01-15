@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts</title>
+
+    <link rel="import" href="view/TrialBalanceView.html">
+</head>
+<body>
+<h1>Accounts</h1>
+
+<general-ledger trial-balance="{{trialBalance}}"></general-ledger>
+
+<trial-balance-calc trial-balance="{{trialBalance}}" account-balances="{{accountBalances}}" balance-totals="{{balanceTotals}}"></trial-balance-calc>
+<trial-balance-view account-balances="{{accountBalances}}" balance-totals="{{balanceTotals}}"></trial-balance-view>
+
+</body>
+</html>

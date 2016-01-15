@@ -1,4 +1,5 @@
 import Rx from 'rx';
+import AccountSummary from './AccountSummary'
 const combineLatest = Rx.Observable.combineLatest;
 
 function flattenPostings(tran) {
@@ -41,8 +42,7 @@ export default class Account {
     }
 
     get summary() {
-        function makeSummary(name, balance) { return {name: name, balance: balance} }
-        //return combineLatest(this.accountDetails.pluck('name'), this.balance, (name, balance) =>  {name: name, balance: balance});
-        return combineLatest(this.accountDetails.pluck('name'), this.balance, makeSummary)
+        function makeSummary([id, name], balance) { return new AccountSummary(id, name, balance) }
+        return combineLatest(this.accountDetails.map( a => [a.id, a.name]), this.balance, makeSummary)
     }
 }

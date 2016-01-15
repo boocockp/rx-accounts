@@ -1,0 +1,116 @@
+Deglitcher Observable
+================
+
+Constructing the tree with intermediate DeglitcherObservables
+--------------------------------------------------------
+- Create one around any normal observable
+- Wrap all functions that return an observable to return a Deglitcher observable around original one
+- DeglitcherObservable needs to extend Observable so it can "be" one and so can call superclass implementations to wrap them
+- Need to call superclass function, so that next observable eg FilterObservable, points to the DeglitcherObservable, then wrap that in another DeglitcherObservable
+- Like return new DeglitcherObservable(super.map(...args)) - do with ES6
+- Override subscribe()?  All observables must go through that - yes? But prob want to do in subscribe function anyway
+- Can you use Defer for this?
+
+Knowing when an operation finished
+----------------------------------
+
+- Would be good if could ask any CO to tell you when it is done
+- May need to ask initial CO in chain to tell you
+- CO could know about its parents and its children if choose to store that when constructing the tree
+- CO wrapper functions would have to examine incoming args to see which were parent COs
+- COs could have path to each other from top to bottom of tree, bypassing the actual data observables
+- CO basically knows when onNext called by its source - when some data is sent down the tree
+- CO knows when it calls onNext on each of its subscribers
+- May need to ask for cooperation from some types of function with variable number of emitted values - but this is a burden
+- Maybe a variable number of emitted values is always a stream
+
+Problems
+--------
+- Filter - don't know whether a value will be sent immediately
+- Async - don't know whether a value will be sent in future
+- Expand functions - don't know how many values will be sent
+- Two types of glitch - race condition within Rx and async timing issues
+
+Possible mechanisms
+-------------------
+- Notify downstream a value coming - but what if don't know how many?
+- Notify upstream that a value is received
+- Pre-notification: Notify all downstream COs there are 0 or more values being sent, and again when done - if functions cooperate
+  - Each downstream CO knows how many potential updates it is waiting for
+- A CO that gets data without pre-notification knows it is start of chain
+- CO at start of chain could assign tran id if useful
+- Multiple transactions could be affecting one downstream CO at same time
+- Post notification:
+
+- Could also send control info down normal channel and filter it out
+- Big snag is: how do you know when an Rx observable has finished its reaction to onNext?
+- Everything has to be a stream, or coerced to a stream
+- Have a new set of operators that produce and deal with framed streams?
+
+Knowing when an Rx observable onNext has finished
+-------------------------------------------------
+- We don't care about observables that only work when stream completes
+- Filter, map, scan, combineLatest are important
+- Frame the actual data with start and end values
+- Use the Observable contract with flatMap to guarantee ordering
+- Treat each value as a stream and feed it to the Observable so get onComplete
+- Wrap map and predicate functions to always pass through control values
+- Scheduling still ends up calling the next function synchronously
+- Assumption: if a simple next function hasn't called onNext by the time it returns, it isn't going to
+- Is it even legal to implement an observable to call onNext asynchronously?
+- A real async function has to return a stream, not a value - true?
+- Flatmap needs to be used to get stream values back into normal stream
+
+Getting the value out
+---------------------
+- Poss: normal subscribers get the actual value, so subscribe with function or Subject gets value out of deglitcher
+
+Wrapper Deglitcher
+------------------
+
+- Maintains normal use of any observable
+- Could extend to wrapping async streams - this should be optional
+
+Root Deglitcher
+---------------
+- Wraps the original source for subscribers
+- Wraps methods that return observables to return WrapperDeglitchers
+- Has a single control observable that is returned by a glitchControl() function
+- When receives onNext, emits Start to control obs, calls main OnNext, emits End to control Obs
+
+Wrapper Deglitcher
+------------------
+- Wraps a parent deglitcher for subscribers
+- Wraps methods that return observables to return WrapperDeglitchers
+- Has a wrapped Observable with the wrapper as its source
+- Has an observer subscribed to the wrapped Observable
+- Creates subscriber observers for each subscribe call
+- Has a single control observable that is returned by a glitchControl() function
+- When receives control Start, increments its expected values count, passes on start to control observers
+- When receives onNext:
+  - calls onNext on the wrapped Observable
+  - saves anything output in the wrapper observer
+- When receives control End:
+  - decrements expected values count
+  - if expected values is zero,
+        - copies the output to its subscriber observers
+        - sends control End
+
+Inline Deglitcher
+-----------------
+- If it is talking to a Deglitcher, passes on control messages, otherwise only main
+
+Observables and Observers
+-------------------------
+- Observables (-able = capability) describe the possible pipeline, have refs towards the source
+- Observers (-er = doing) are instances of a pipeline, have refs towards subscriber
+- One instance of observer for each subscription to an observable
+- If have a diamond structure below an observable and two subscribers at end, there will be 4 observers - true?
+- These will be in two pairs, one for each end subscriber
+- Each pair needs to track separately when it is ready
+
+
+
+
+
+

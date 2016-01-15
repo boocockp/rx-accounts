@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src/main src/test -d target",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-register"
   },
   "author": "paulb@ashridgetech.com",
   "license": "None",
   "devDependencies": {
-    "babel-cli": "^6.3.17"
+    "babel-cli": "^6.3.17",
+    "babel-register": "^6.3.13",
+    "chai": "^3.4.1"
   },
   "dependencies": {
     "rx": "^4.0.7"

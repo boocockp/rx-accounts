@@ -23,6 +23,8 @@ Notes
 
 - BehaviorSubjects: don't scatter them around for no reason
 
+- Work out how to use async/await with Rx
+
 Patterns
 --------
 - look for patterns for scanning and saving

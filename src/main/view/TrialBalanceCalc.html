@@ -1,0 +1,34 @@
+<link rel="import" href="../bower/polymer/polymer.html">
+
+<script>
+    var TrialBalance = require('../TrialBalance')
+</script>
+
+<dom-module id="trial-balance-calc">
+    <template>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'trial-balance-calc',
+
+        properties: {
+            accountBalances: {
+                type: Array,
+                readOnly: true,
+                notify: true
+            },
+            balanceTotals: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        ready: function() {
+            this.model = new TrialBalance();
+        }
+
+    });
+</script>

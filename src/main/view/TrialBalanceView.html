@@ -1,0 +1,46 @@
+<link rel="import" href="../bower/polymer/polymer.html">
+
+<dom-module id="trial-balance-view">
+    <template>
+        <style>
+        </style>
+        <div class="trialBalanceContainer">
+            <h2>Trial Balance</h2>
+            <table>
+                <thead>
+                    <th>Account</th>
+                    <th>Debit Balance</th>
+                    <th>Credit Balance</th>
+                </thead>
+                <tbody>
+                    <template is="dom-repeat" items="{{summaryList}}">
+                        <td class="accountName">{{item.name}}</td>
+                        <td class="number debit">{{item.debitBalance}}</td>
+                        <td class="number credit">{{item.creditBalance}}</td>
+                    </template>
+                </tbody>
+                <tfoot>
+                    <td>&nbsp</td>
+                    <td class="number debit total">{{balanceTotals.debit}}</td>
+                    <td class="number credit total">{{balanceTotals.credit}}</td>
+                </tfoot>
+            </table>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'trial-balance-view',
+
+        properties: {
+            accountBalances: {
+                type: Array
+            },
+            balanceTotals: {
+                type: Object
+            }
+        }
+
+    });
+</script>

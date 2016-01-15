@@ -37,28 +37,37 @@ bank.balance.subscribe((x) => console.log('bank balance', x));
 console.log('Subscribing to trial balance...');
 gl.trialBalance().accountBalances.subscribe(x => console.log('trial balance', x));
 
-gl.transactionDetails.onNext({description: "Initial capital", date: '2012-06-30', postings: [
-    {accountId: 'id_1004', amount: 500, type: 'CR'},
-    {accountId: 'id_1003', amount: 500, type: 'DR'}
-]});
+enterTransaction("Initial capital", '2012-06-30', [
+    ['id_1004', 500, 'CR'],
+    ['id_1003', 500, 'DR']
+]);
 
-gl.transactionDetails.onNext({description: "Day out in Brighton", date: '2012-07-01', postings: [
-    {accountId: 'id_1001', amount: 100, type: 'DR'},
-    {accountId: 'id_1002', amount: 50, type: 'DR'},
-    {accountId: 'id_1003', amount: 150, type: 'CR'}
-]});
+enterTransaction("Day out in Brighton", '2012-07-01',  [
+    ['id_1001', 100, 'DR'],
+    ['id_1002', 50,  'DR'],
+    ['id_1003', 150, 'CR']
+]);
 
-gl.transactionDetails.onNext({description: "Trip to London", date: '2012-07-02', postings: [
-    {accountId: 'id_1001', amount: 70, type: 'DR'},
-    {accountId: 'id_1002', amount: 30, type: 'DR'},
-    {accountId: 'id_1003', amount: 100, type: 'CR'}
-]});
+enterTransaction( "Trip to London", '2012-07-02', [
+    ['id_1001', 70, 'DR'],
+    ['id_1002', 30, 'DR'],
+    ['id_1003', 100, 'CR']
+]);
 
+enterTransaction("Breakfast in town", '2012-07-03', [
+    ['id_1001', 25, 'DR'],
+    ['id_1002', 15, 'DR'],
+    ['id_1003', 40, 'CR']
+]);
 
-gl.transactionDetails.onNext({description: "Breakfast in town", date: '2012-07-03', postings: [
-    {accountId: 'id_1001', amount: 25, type: 'DR'},
-    {accountId: 'id_1002', amount: 15, type: 'DR'},
-    {accountId: 'id_1003', amount: 40, type: 'CR'}
-]});
+function enterTransaction(description, date, postings) {
+    function asPosting(p) {
+        let [accountId, amount, type] = p;
+        return {accountId, amount, type};
+    }
 
+    let tran = {description, date, postings: postings.map(asPosting) };
+    console.log('\n', 'Transaction:\n', tran);
+    gl.transactionDetails.onNext(tran);
+}
 
