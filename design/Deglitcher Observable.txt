@@ -109,6 +109,12 @@ Observables and Observers
 - These will be in two pairs, one for each end subscriber
 - Each pair needs to track separately when it is ready
 
+- ** Root needs to publish to all sources - certainly in one subscription, maybe across all
+
+To test
+-------
+- Multiple diamonds off same root
+- further mapping beyond
 
 To Do
 -----
