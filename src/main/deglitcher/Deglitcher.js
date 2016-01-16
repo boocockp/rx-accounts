@@ -91,11 +91,10 @@ class DeglitcherTarget extends Rx.ObservableBase {
     }
 
     subscribeCore (o) {
-        let receiver = this.deglitcher.currentReceiver;    // TODO just pass in current receiver
+        let receiver = this.deglitcher.currentReceiver;
         let sender = new DeglitcherSender(o, receiver);
         return this.source.subscribe(sender);
     };
-
 }
 
 class DeglitcherSender extends Rx.internals.AbstractObserver {
@@ -132,14 +131,14 @@ class DeglitcherReceiver extends Rx.internals.AbstractObserver {
     next(x) {
         if (x == END) {
             this.endCount++;
-            console.log('end   received by', this.id, 'end count', this.endCount, 'target deglitcher', this.targetIsDeglitcher);
+            //console.log('end   received by', this.id, 'end count', this.endCount, 'target deglitcher', this.targetIsDeglitcher);
             if (this.endCount === this.sourceCount) {
                 this._o.onNext(this.valueReceived);
                 this.targetIsDeglitcher && this._o.onNext(END);
                 this.endCount = 0;
             }
         } else {
-            console.log('value received by', this.id, x);
+            //console.log('value received by', this.id, x);
             this.valueReceived = x;
         }
     };
