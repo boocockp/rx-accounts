@@ -1,6 +1,5 @@
 import Rx from 'rx';
 
-const START = '__deglitcherStart__';
 const END = '__deglitcherEnd__';
 
 let objectId = 0;
@@ -13,8 +12,7 @@ class RootDeglitcherObserver extends Rx.internals.AbstractObserver {
     }
 
     next(x) {
-        let isControlEvent = x == START || x == END;
-        if (!isControlEvent || this.targetIsDeglitcher) {
+        if (x != END || this.targetIsDeglitcher) {
             this._o.onNext(x);
         }
     };
@@ -27,7 +25,7 @@ export class RootDeglitcherObservable extends Rx.ObservableBase {
     constructor(source) {
         super();
         this.source = source;
-        this.sharedSourceWithControlEvents = source.flatMap((x, i) => Rx.Observable.from([START, x, END])).share();
+        this.sharedSourceWithControlEvents = source.flatMap((x, i) => Rx.Observable.from([x, END])).share();
         // wrap all functions that return observables
         this.map = this._wrap(this.map);
     }
@@ -57,7 +55,7 @@ export class DeglitcherObservable extends Rx.ObservableBase {
     }
 
     subscribeCore (o) {
-        let receiver = new DeglitcherReceiver(o, this);
+        let receiver = new DeglitcherReceiver(o, this.sources.length);
         this.currentReceiver = receiver;
         try {
             return this.originalObservable.subscribe(receiver);
@@ -93,7 +91,7 @@ class DeglitcherTarget extends Rx.ObservableBase {
     }
 
     subscribeCore (o) {
-        let receiver = this.deglitcher.currentReceiver;
+        let receiver = this.deglitcher.currentReceiver;    // TODO just pass in current receiver
         let sender = new DeglitcherSender(o, receiver);
         return this.source.subscribe(sender);
     };
@@ -108,7 +106,7 @@ class DeglitcherSender extends Rx.internals.AbstractObserver {
     }
 
     next(x) {
-        if (x == START || x == END) {
+        if (x == END) {
             this.receiver.onNext(x)
         } else {
             this._o.onNext(x);
@@ -121,36 +119,32 @@ class DeglitcherSender extends Rx.internals.AbstractObserver {
 }
 
 class DeglitcherReceiver extends Rx.internals.AbstractObserver {
-    constructor(o, source) {
+    constructor(o, sourceCount) {
         super();
         this.id = ++objectId;
         this._o = o;
-        this.source = source;
+        this.sourceCount = sourceCount;
         this.targetIsDeglitcher = o.observer && o.observer instanceof DeglitcherSender;
-        this.expected = 0;
         this.valueReceived = undefined;
+        this.endCount = 0;
     }
 
     next(x) {
-        if (x == START) {
-            this.expected++;
-            //console.log('start received by', this.id, 'expected', this.expected, 'target deglitcher', this.targetIsDeglitcher);
-            this.targetIsDeglitcher && this._o.onNext(START);
-        } else if (x == END) {
-            this.expected--;
-            //console.log('end   received by', this.id, 'expected', this.expected, 'target deglitcher', this.targetIsDeglitcher);
-            if (this.expected === 0) {
+        if (x == END) {
+            this.endCount++;
+            console.log('end   received by', this.id, 'end count', this.endCount, 'target deglitcher', this.targetIsDeglitcher);
+            if (this.endCount === this.sourceCount) {
                 this._o.onNext(this.valueReceived);
+                this.targetIsDeglitcher && this._o.onNext(END);
+                this.endCount = 0;
             }
-            this.targetIsDeglitcher && this._o.onNext(END);
         } else {
-            //console.log('value received by', this.id, x);
+            console.log('value received by', this.id, x);
             this.valueReceived = x;
         }
     };
 
     error(e) { this._o.onError(e); };
     completed() { this._o.onCompleted(); };
-
 }
 
