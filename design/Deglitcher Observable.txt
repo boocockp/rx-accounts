@@ -111,13 +111,19 @@ Observables and Observers
 
 - ** Root needs to publish to all sources - certainly in one subscription, maybe across all
 
+- ** Best way of counting - one stage at a time, or whole tree?
+
 To test
 -------
 - Multiple diamonds off same root
 - Single path from root then spread into diamond
 - further mapping beyond diamond
+- double diamond
 - two subscriptions
 - two sets of events
+- non-deglitcher subscription to deglitcher in middle of path
+- Observe on different schedulers
+- Async inputs
 
 To Do
 -----
@@ -126,6 +132,7 @@ To Do
 - wrap works for all functions
     - wrap works in Deglitcher as well as Root
     - know when to send control and when not to
+- Mapping in async observables
 
 
 
