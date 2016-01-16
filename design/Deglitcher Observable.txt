@@ -114,7 +114,10 @@ Observables and Observers
 To test
 -------
 - Multiple diamonds off same root
-- further mapping beyond
+- Single path from root then spread into diamond
+- further mapping beyond diamond
+- two subscriptions
+- two sets of events
 
 To Do
 -----

@@ -9,63 +9,56 @@ function double(v) {
 }
 
 function plus10(v) {
-    return v + 10;
+    return plus(10)(v);
+}
+
+function plus(n) {
+    return (x) => x + n;
 }
 
 describe('Deglitcher', function () {
 
-    it('passes through value',  () => {
-        let source = Rx.Observable.range(1, 3);
-        let result = [];
+    let source, root;
 
-        let deg = new RootDeglitcherObservable(source);
-        deg.subscribe(x => result.push(x));
-        result.should.eql([1,2,3]);
+    beforeEach(() => {
+        source = new Rx.Subject();
+        root = new RootDeglitcherObservable(source);
+    });
+
+    function outputOf(obs, ...inputs) {
+        let result = [];
+        obs.subscribe(x => result.push(x));
+        inputs.forEach(x => source.onNext(x));
+        return result;
+    }
+
+
+    it('passes through value',  () => {
+        outputOf(root, 1, 2, 3).should.eql( [1, 2, 3])
     });
 
     it('passes through value with wrapped map', () => {
-        let source = new Rx.Subject();
-        let result = [];
-
-        let deg = new RootDeglitcherObservable(source);
-        let degMapped = deg.map( double );
-        degMapped.subscribe(x => {result.push(x)});
-
-        source.onNext(1);
-        source.onNext(2);
-        source.onNext(3);
-        result.should.eql([2, 4, 6]);
+        outputOf(root.map( double ), 1, 2, 3).should.eql( [2, 4, 6])
     });
 
     it('passes through value with two wrapped maps', () => {
-        let source = new Rx.Subject();
-        let result = [];
-
-        let deg = new RootDeglitcherObservable(source);
-        let degMapped1 = deg.map( double );
-        let degMapped2 = degMapped1.map( plus10 );
-        degMapped2.subscribe(x => {result.push(x)});
-
-        source.onNext(1);
-        source.onNext(2);
-        source.onNext(3);
-        result.should.eql([12, 14, 16]);
+        outputOf(root.map( double ).map( plus10 ), 1, 2, 3).should.eql([12, 14, 16]);
     });
 
     it('emits one event for diamond pattern', () => {
-        let source = new Rx.Subject();
-        let result = [];
+        let mappedDouble = root.map( double );
+        let mappedPlus10 = root.map( plus10 );
+        let combined = mappedDouble.combineLatest(mappedPlus10, (a, b) => a + b);
+        outputOf(combined, 1, 2, 3).should.eql([13, 16, 19]);
+    });
 
-        let deg = new RootDeglitcherObservable(source);
-        let degMappedDouble = deg.map( double );
-        let degMappedPlus10 = deg.map( plus10 );
-        let degCombined = degMappedDouble.combineLatest(degMappedPlus10, (a, b) => a + b);
-        degCombined.subscribe(x => {result.push(x)});
-
-        source.onNext(1);
-        source.onNext(2);
-        source.onNext(3);
-        result.should.eql([13, 16, 19]);
+    it('emits one event for diamond pattern in middle of path', () => {
+        let mappedPlus5 = root.map(plus(5));
+        let mappedDouble = mappedPlus5.map( double );
+        let mappedPlus10 = mappedPlus5.map( plus(10) );
+        let combined = mappedDouble.combineLatest(mappedPlus10, (a, b) => a + b);
+        let final = combined.map(plus(3));
+        outputOf(final, 1, 2, 3).should.eql([31, 34, 37]);
     });
 
 
