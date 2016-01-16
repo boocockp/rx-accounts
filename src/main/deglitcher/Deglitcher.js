@@ -2,13 +2,21 @@ import Rx from 'rx';
 
 const END = '__deglitcherEnd__';
 
-let objectId = 0;
-
-class RootDeglitcherObserver extends Rx.internals.AbstractObserver {
+class DeglitcherObserver extends Rx.internals.AbstractObserver {
     constructor(o) {
         super();
         this._o = o;
         this.targetIsDeglitcher = o.observer && o.observer instanceof DeglitcherSender;
+    }
+
+
+    error(e) { this._o.onError(e); };
+    completed() { this._o.onCompleted(); };
+}
+
+class RootDeglitcherObserver extends DeglitcherObserver {
+    constructor(o) {
+        super(o);
     }
 
     next(x) {
@@ -16,9 +24,6 @@ class RootDeglitcherObserver extends Rx.internals.AbstractObserver {
             this._o.onNext(x);
         }
     };
-
-    error(e) { this._o.onError(e); };
-    completed() { this._o.onCompleted(); };
 }
 
 export class RootDeglitcherObservable extends Rx.ObservableBase {
@@ -97,10 +102,9 @@ class DeglitcherTarget extends Rx.ObservableBase {
     };
 }
 
-class DeglitcherSender extends Rx.internals.AbstractObserver {
+class DeglitcherSender extends DeglitcherObserver {
     constructor(o, receiver) {
-        super();
-        this._o = o;
+        super(o);
         this.receiver = receiver;
     }
 
@@ -111,19 +115,12 @@ class DeglitcherSender extends Rx.internals.AbstractObserver {
             this._o.onNext(x);
         }
     };
-
-    error(e) { this._o.onError(e); };
-    completed() { this._o.onCompleted(); };
-
 }
 
-class DeglitcherReceiver extends Rx.internals.AbstractObserver {
+class DeglitcherReceiver extends DeglitcherObserver {
     constructor(o, sourceCount) {
-        super();
-        this.id = ++objectId;
-        this._o = o;
+        super(o);
         this.sourceCount = sourceCount;
-        this.targetIsDeglitcher = o.observer && o.observer instanceof DeglitcherSender;
         this.valueReceived = undefined;
         this.endCount = 0;
     }
@@ -142,8 +139,5 @@ class DeglitcherReceiver extends Rx.internals.AbstractObserver {
             this.valueReceived = x;
         }
     };
-
-    error(e) { this._o.onError(e); };
-    completed() { this._o.onCompleted(); };
 }
 

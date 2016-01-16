@@ -114,7 +114,7 @@ Observables and Observers
 - ** Best way of counting - one stage at a time, or whole tree?
 - Only observables with multiple sources need to count
 - May only need a 'done' signal through the control channel - one for every source
-- Only send out one done
+- Only send out one done after the value
 
 To test
 -------
@@ -129,6 +129,8 @@ To test
 - Observe on different schedulers
 - Async inputs
 - Flatmap - multiple values received
+- Errors being sent from upstream - do they affect the counting?
+- Errors occurring in wrapped observable
 
 To Do
 -----
