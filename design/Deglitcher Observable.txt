@@ -112,9 +112,13 @@ Observables and Observers
 - ** Root needs to publish to all sources - certainly in one subscription, maybe across all
 
 - ** Best way of counting - one stage at a time, or whole tree?
+- Only observables with multiple sources need to count
+- May only need a 'done' signal through the control channel - one for every source
+- Only send out one done
 
 To test
 -------
+- Filtering - no value received
 - Multiple diamonds off same root
 - Single path from root then spread into diamond
 - further mapping beyond diamond
@@ -124,6 +128,7 @@ To test
 - non-deglitcher subscription to deglitcher in middle of path
 - Observe on different schedulers
 - Async inputs
+- Flatmap - multiple values received
 
 To Do
 -----
