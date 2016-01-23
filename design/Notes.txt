@@ -35,6 +35,8 @@ Patterns
 - extract set of properties
 - extract set of properties into combineLatest
 - add id to incoming event
+- add id to new mutable object eg account - need to replay after adding ids
+- add id to new immutable event eg transaction
 - streams within streams, or changing set of changing sets:
    - stream producing lists of streams, combine latest across all streams, then switch,  to produce list of values eg account balances in trial balance
 

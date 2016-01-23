@@ -1,6 +1,7 @@
 import Account from './Account';
 import TrialBalance from './TrialBalance';
 import Rx from 'rx';
+import {DeglitcherObservable, RootDeglitcherObservable} from 'deglitcher';
 
 let lastId = 1000;
 
@@ -12,11 +13,12 @@ export default class GeneralLedger {
         this.addIds(this.accountDetails).subscribe(this.accountDetailsWithIds);
         this.allAccountIds = this.accountDetailsWithIds.scan( (acc, x) => acc.add(x.id), new Set());
 
-        this.transactionDetails = new Rx.ReplaySubject();
-        this.transactionDetailsWithIds = this.addIds(this.transactionDetails);
-        //this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
+        this.transactionDetails = new Rx.Subject();
+        this.transactionDetailsWithIds = new Rx.ReplaySubject();
+        this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
+        this.deglitchedTransactions = new RootDeglitcherObservable(this.transactionDetailsWithIds)
 
-        this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
+        this.postings = this.deglitchedTransactions.flatMap((x) => x.postings);
     }
 
     accounts() {
@@ -26,7 +28,7 @@ export default class GeneralLedger {
     }
 
     account(id) {
-        return new Account(id, this.accountDetailsWithIds, this.transactionDetailsWithIds);
+        return new Account(id, this.accountDetailsWithIds, this.deglitchedTransactions);
     }
 
     trialBalance() {
