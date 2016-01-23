@@ -4,9 +4,8 @@ const combineLatest = Rx.Observable.combineLatest;
 
 
 export default class TrialBalance {
-    constructor(accounts, transactions) {
+    constructor(accounts) {
         this.accountList = accounts;
-        this.transactions = transactions;
     }
 
 

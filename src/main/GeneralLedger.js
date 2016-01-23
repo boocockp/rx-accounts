@@ -12,9 +12,9 @@ export default class GeneralLedger {
         this.addIds(this.accountDetails).subscribe(this.accountDetailsWithIds);
         this.allAccountIds = this.accountDetailsWithIds.scan( (acc, x) => acc.add(x.id), new Set());
 
-        this.transactionDetails = new Rx.Subject();
-        this.transactionDetailsWithIds = new Rx.ReplaySubject();
-        this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
+        this.transactionDetails = new Rx.ReplaySubject();
+        this.transactionDetailsWithIds = this.addIds(this.transactionDetails);
+        //this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
 
         this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
     }
@@ -30,7 +30,7 @@ export default class GeneralLedger {
     }
 
     trialBalance() {
-        return new TrialBalance(this.accounts(), this.transactionDetailsWithIds);    // TODO should be just one shared instance?
+        return new TrialBalance(this.accounts());    // TODO should be just one shared instance?
     }
 
     addIds(details) {
