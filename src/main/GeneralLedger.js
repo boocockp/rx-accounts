@@ -16,9 +16,8 @@ export default class GeneralLedger {
         this.transactionDetails = new Rx.Subject();
         this.transactionDetailsWithIds = new Rx.ReplaySubject();
         this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
-        this.deglitchedTransactions = new RootDeglitcherObservable(this.transactionDetailsWithIds)
 
-        this.postings = this.deglitchedTransactions.flatMap((x) => x.postings);
+        this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
     }
 
     accounts() {
@@ -28,7 +27,7 @@ export default class GeneralLedger {
     }
 
     account(id) {
-        return new Account(id, this.accountDetailsWithIds, this.deglitchedTransactions);
+        return new Account(id, this.accountDetailsWithIds, this.transactionDetailsWithIds);
     }
 
     trialBalance() {

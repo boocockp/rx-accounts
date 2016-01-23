@@ -37,6 +37,9 @@ gl.postings.subscribe((x) => console.log('all postings', x));
 console.log('Subscribing to trial balance...');
 gl.trialBalance().accountBalances.subscribe(x => console.log('trial balance', x));
 
+console.log('Subscribing to balance totals...');
+gl.trialBalance().balanceTotals.subscribe(x => console.log('balance totals', x));
+
 enterTransaction("Initial capital", '2012-06-30', [
     ['id_1004', 500, 'CR'],
     ['id_1003', 500, 'DR']
@@ -59,6 +62,12 @@ enterTransaction("Breakfast in town", '2012-07-03', [
     ['id_1002', 15, 'DR'],
     ['id_1003', 40, 'CR']
 ]);
+
+enterTransaction("Repay capital", '2012-06-30', [
+    ['id_1004', 100, 'DR'],
+    ['id_1003', 100, 'CR']
+]);
+
 
 function enterTransaction(description, date, postings) {
     function asPosting(p) {

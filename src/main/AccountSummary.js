@@ -6,10 +6,10 @@ export default class AccountSummary {
     }
 
     get debitBalance() {
-        return this.balance < 0 ? Math.abs(balance) : null;
+        return this.balance < 0 ? Math.abs(this.balance) : null;
     }
 
     get creditBalance() {
-        return this.balance > 0 ? balance : null;
+        return this.balance > 0 ? this.balance : null;
     }
 }

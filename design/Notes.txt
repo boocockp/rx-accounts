@@ -46,6 +46,7 @@ Development approach
 - Streams of lists, with map on each, are difficult
 - Hiding the fact that something is a stream and is being mapped may help
 - How do you name streams? After the value in each event?  Singular or plural?
+- Can you treat fixed lists and streams within a value as equivalent? Eg transaction postings with flatMap
 
 ToDo
 ----
