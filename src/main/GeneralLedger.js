@@ -17,8 +17,6 @@ export default class GeneralLedger {
         this.addIds(this.transactionDetails).subscribe(this.transactionDetailsWithIds);
 
         this.postings = this.transactionDetailsWithIds.flatMap((x) => x.postings);
-
-        this._inputComplete = Rx.Subject();
     }
 
     accounts() {

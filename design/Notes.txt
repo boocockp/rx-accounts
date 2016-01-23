@@ -35,6 +35,15 @@ Patterns
 - extract set of properties
 - extract set of properties into combineLatest
 - add id to incoming event
+- streams within streams, or changing set of changing sets:
+   - stream producing lists of streams, combine latest across all streams, then switch,  to produce list of values eg account balances in trial balance
+
+Development approach
+--------------------
+- Streams of streams eg in trial balance are very difficult to understand
+- Streams of lists, with map on each, are difficult
+- Hiding the fact that something is a stream and is being mapped may help
+- How do you name streams? After the value in each event?  Singular or plural?
 
 ToDo
 ----

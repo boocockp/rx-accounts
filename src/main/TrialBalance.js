@@ -4,21 +4,20 @@ const combineLatest = Rx.Observable.combineLatest;
 
 export default class TrialBalance {
     constructor(accounts, transactions) {
-        this.accounts = accounts;
+        this.accountList = accounts;
         this.transactions = transactions;
     }
 
 
     // stream of set of account summary with name, balance
     get accountBalances() {
-        let summaryStreamListStream = this.accounts.map( (accts) =>
+        let summaryList = this.accountList.map(accts =>
             accts.map( a => a.summary )
         );
 
-        let summaryListStreamStream = summaryStreamListStream.map( (summaryStreamList) => combineLatest(summaryStreamList));
-        let summaryListStream = summaryListStreamStream.switch();//.zip(this.transactions, (x, y) => x);  // TODO better way of controlling
-        return this.transactions.withLatestFrom(summaryListStream, (t, s) => s);
-        //return summaryListStream
+        let summaryLatest = summaryList.map( (list) => combineLatest(list));
+        let result = summaryLatest.switch();
+        return result;
     }
 
     get balanceTotals() {
