@@ -1,4 +1,8 @@
-*.iml
 .idea/
+*.iml
+bower_components/
+bower.json
+dist/
 node_modules/
 target/
+stuff

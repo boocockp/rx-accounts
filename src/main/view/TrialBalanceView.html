@@ -1,4 +1,4 @@
-<link rel="import" href="../bower/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <dom-module id="trial-balance-view">
     <template>
@@ -13,14 +13,16 @@
                     <th>Credit Balance</th>
                 </thead>
                 <tbody>
-                    <template is="dom-repeat" items="{{summaryList}}">
-                        <td class="accountName">{{item.name}}</td>
-                        <td class="number debit">{{item.debitBalance}}</td>
-                        <td class="number credit">{{item.creditBalance}}</td>
+                    <template is="dom-repeat" items="{{accountBalances}}">
+                        <tr>
+                            <td class="accountName">{{item.name}}</td>
+                            <td class="number debit">{{item.debitBalance}}</td>
+                            <td class="number credit">{{item.creditBalance}}</td>
+                        </tr>
                     </template>
                 </tbody>
                 <tfoot>
-                    <td>&nbsp</td>
+                    <td><strong>Totals</strong></td>
                     <td class="number debit total">{{balanceTotals.debit}}</td>
                     <td class="number credit total">{{balanceTotals.credit}}</td>
                 </tfoot>

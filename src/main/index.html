@@ -4,15 +4,50 @@
     <meta charset="UTF-8">
     <title>Accounts</title>
 
+    <link rel="import" href="view/GeneralLedger.html">
+    <link rel="import" href="view/TrialBalanceCalc.html">
     <link rel="import" href="view/TrialBalanceView.html">
 </head>
 <body>
 <h1>Accounts</h1>
 
-<general-ledger trial-balance="{{trialBalance}}"></general-ledger>
+    <template is="dom-bind">
+        <general-ledger accounts-str="{{accounts}}"></general-ledger>
+        <trial-balance-calc accounts="{{accounts}}" account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-calc>
+        <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
+    </template>
 
-<trial-balance-calc trial-balance="{{trialBalance}}" account-balances="{{accountBalances}}" balance-totals="{{balanceTotals}}"></trial-balance-calc>
-<trial-balance-view account-balances="{{accountBalances}}" balance-totals="{{balanceTotals}}"></trial-balance-view>
+<script>
+    function setup() {
+        window.gl = document.getElementsByTagName('general-ledger')[0];
+        window.tbc = document.getElementsByTagName('trial-balance-calc')[0];
+        window.tbv = document.getElementsByTagName('trial-balance-view')[0];
+
+        gl.accountDetails = {name: "Bank"};
+        gl.accountDetails = {name: "Days Out"};
+
+        enterTransaction("Trip to Brighton", '27May15', [
+                ["id_1001", 20, 'CR'],
+                ["id_1002", 20, 'DR']
+        ])
+    }
+
+    function enterTransaction(description, date, postings) {
+        function asPosting(p) {
+            var accountId = p[0];
+            var amount = p[1];
+            var type = p[2];
+            return {accountId: accountId, amount:amount, type:type};
+        }
+
+        var tran = {description: description, date: date, postings: postings.map(asPosting) };
+        console.log('\n', 'Transaction:\n', tran);
+        gl.transactionDetails = tran;
+    }
+
+    setTimeout(setup, 500);
+
+</script>
 
 </body>
 </html>

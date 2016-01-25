@@ -1,19 +1,22 @@
-<link rel="import" href="../bower/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<script>
-    var TrialBalance = require('../TrialBalance')
-</script>
-
+<script src="../../../dist/accounts.js"></script>
 <dom-module id="trial-balance-calc">
     <template>
     </template>
 </dom-module>
 
 <script>
+    var TrialBalance = require('trial-balance').default;
+
     Polymer({
         is: 'trial-balance-calc',
 
         properties: {
+            accounts: {
+              type: Object,
+              observer: 'onAccounts'
+            },
             accountBalances: {
                 type: Array,
                 readOnly: true,
@@ -26,8 +29,10 @@
             }
         },
 
-        ready: function() {
-            this.model = new TrialBalance();
+        onAccounts: function(accts) {
+            this.model = new TrialBalance(accts);
+            this.model.accountBalances.subscribe(function(x) { this._setAccountBalances(x)}.bind(this) );
+            this.model.balanceTotals.subscribe(function(x) { this._setBalanceTotals(x)}.bind(this) );
         }
 
     });

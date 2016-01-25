@@ -16,13 +16,13 @@ function allAsList(stream) {
 export default class Account {
     constructor(id, accountDetails, transactionDetails) {
         this.id = id;
-        this.accountDetails = accountDetails.filter((x) => x.id == this.id);
+        this._accountDetails = accountDetails.filter((x) => x.id == this.id);
         this.accountPostings = transactionDetails.flatMap(flattenPostings).filter( p => p.accountId == this.id);
         this.accountPostingsList = allAsList(this.accountPostings);
     }
 
     get details() {
-        return this.accountDetails;
+        return this._accountDetails;
     }
 
     get postings() {
@@ -43,6 +43,6 @@ export default class Account {
 
     get summary() {
         function makeSummary([id, name], balance) { return new AccountSummary(id, name, balance) }
-        return combineLatest(this.accountDetails.map( a => [a.id, a.name]), this.balance, makeSummary)
+        return combineLatest(this._accountDetails.map(a => [a.id, a.name]), this.balance, makeSummary)
     }
 }

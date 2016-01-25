@@ -6,25 +6,25 @@ console.log('Started');
 
 gl.accountDetailsWithIds.subscribe((x) => console.log('accountDetailsWithIds', x));
 
-gl.accountDetails.onNext({name: 'Fuel'});
-gl.accountDetails.onNext({name: 'Food'});
-gl.accountDetails.onNext({id: 'id_1001', name: 'Transport'});
+gl.accountDetails({name: 'Fuel'});
+gl.accountDetails({name: 'Food'});
+gl.accountDetails({id: 'id_1001', name: 'Transport'});
 
 let account1 = gl.account('id_1001');
 console.log('Subscribing to account1 details...');
 account1.details.subscribe((x) => console.log('account1 details', x));
 
-gl.accountDetails.onNext({id: 'id_1001', name: 'Travel'});
-gl.accountDetails.onNext({id: 'id_1002', name: 'Meals'});
+gl.accountDetails({id: 'id_1001', name: 'Travel'});
+gl.accountDetails({id: 'id_1002', name: 'Meals'});
 
 let account2 = gl.account('id_1002');
 console.log('Subscribing to account2 details...');
 account2.details.subscribe((x) => console.log('account2 details', x));
 
-gl.accountDetails.onNext({name: 'Bank'});
+gl.accountDetails({name: 'Bank'});
 let bank = gl.account('id_1003');
 
-gl.accountDetails.onNext({name: 'Capital'});
+gl.accountDetails({name: 'Capital'});
 let capital = gl.account('id_1004');
 
 console.log('Subscribing to all postings...');
@@ -77,6 +77,6 @@ function enterTransaction(description, date, postings) {
 
     let tran = {description, date, postings: postings.map(asPosting) };
     console.log('\n', 'Transaction:\n', tran);
-    gl.transactionDetails.onNext(tran);
+    gl.transactionDetails(tran);
 }
 

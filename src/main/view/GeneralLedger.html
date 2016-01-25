@@ -1,0 +1,56 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../../dist/accounts.js"></script>
+<dom-module id="general-ledger">
+    <template>
+    </template>
+</dom-module>
+
+<script>
+    var GeneralLedger = require('general-ledger').default;
+    Polymer({
+        is: 'general-ledger',
+
+        properties: {
+            accounts: {
+                type: Array,
+                readOnly: true,
+                notify: true,
+                value: []
+            },
+
+            accountsStr: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            },
+
+            accountDetails: {
+                type: Object,
+                observer: 'onAccountDetails'
+            },
+
+            transactionDetails: {
+                type: Object,
+                observer: 'onTransactionDetails'
+            }
+        },
+
+        ready: function() {
+            var self = this;
+            this.model = new GeneralLedger();
+            var accounts = this.model.accounts();
+            accounts.subscribe( function (x) { self._setAccounts(x); });
+            this._setAccountsStr(accounts);
+        },
+
+        onAccountDetails: function(x) {
+            this.model.accountDetails(x);
+        },
+
+        onTransactionDetails: function(x) {
+            this.model.transactionDetails(x);
+        }
+
+    });
+</script>

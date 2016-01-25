@@ -1,5 +1,4 @@
 import Rx from 'rx';
-import {DeglitcherObservable, RootDeglitcherObservable} from 'deglitcher';
 const combineLatest = Rx.Observable.combineLatest;
 
 

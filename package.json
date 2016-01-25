@@ -4,7 +4,7 @@
   "description": "Simple accounts, SOO style",
   "main": "index.js",
   "scripts": {
-    "build": "babel --source-maps src/main src/test -d target",
+    "compile": "babel --source-maps src/main src/test -d target",
     "test": "mocha --compilers js:babel-register"
   },
   "author": "paulb@ashridgetech.com",
@@ -13,6 +13,7 @@
     "babel-cli": "^6.3.17",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
+    "babelify": "^7.2.0",
     "chai": "^3.4.1"
   },
   "dependencies": {
