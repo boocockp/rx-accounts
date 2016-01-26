@@ -17,6 +17,11 @@
         is: 'submit-form',
 
         properties: {
+            data: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
         },
 
         onSubmit: function(e) {
@@ -24,7 +29,7 @@
             console.log("submit-form onSubmit", e);
             var inputs = _.toArray(this.$.form.querySelectorAll('input[name]'));
             var data = _.fromPairs(inputs.map(function(input) { return [input.getAttribute('name'), input.value]}))
-            this.fire('data', data);
+            this._setData(data);
         }
     });
 </script>

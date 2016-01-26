@@ -9,7 +9,7 @@
         </style>
         <div class="transactionEntryContainer">
             <h2>Enter Transaction</h2>
-            <submit-form on-data="onData">
+            <submit-form on-data-changed="onData">
                 <input-field name="date"></input-field>
                 <input-field name="description"></input-field>
                 <input-field name="posting1accountId"></input-field>
@@ -37,7 +37,7 @@
         },
 
         onData: function(e) {
-            var data = e.detail;
+            var data = e.detail.value;
             console.log('onData', data);
             var tran = {
                 date: data.date,
