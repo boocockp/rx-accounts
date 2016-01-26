@@ -7,14 +7,22 @@
     <link rel="import" href="view/GeneralLedger.html">
     <link rel="import" href="view/TrialBalanceCalc.html">
     <link rel="import" href="view/TrialBalanceView.html">
+    <link rel="import" href="view/TransactionEntryView.html">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
 <body>
 <h1>Accounts</h1>
 
     <template is="dom-bind">
-        <general-ledger accounts-str="{{accounts}}"></general-ledger>
+        <general-ledger accounts-str="{{accounts}}" transaction-details="{{transactionDetails}}"></general-ledger>
         <trial-balance-calc accounts="{{accounts}}" account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-calc>
         <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
+        <transaction-entry-view transaction-details="{{transactionDetails}}"></transaction-entry-view>
     </template>
 
 <script>

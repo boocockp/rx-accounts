@@ -1,0 +1,61 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="SubmitForm.html">
+<link rel="import" href="InputField.html">
+
+<dom-module id="transaction-entry-view">
+    <template>
+        <style>
+        </style>
+        <div class="transactionEntryContainer">
+            <h2>Enter Transaction</h2>
+            <submit-form on-data="onData">
+                <input-field name="date"></input-field>
+                <input-field name="description"></input-field>
+                <input-field name="posting1accountId"></input-field>
+                <input-field name="posting1type"></input-field>
+                <input-field name="posting1amount"></input-field>
+                <input-field name="posting2accountId"></input-field>
+                <input-field name="posting2type"></input-field>
+                <input-field name="posting2amount"></input-field>
+                <button type="submit">Save</button>
+            </submit-form>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'transaction-entry-view',
+
+        properties: {
+            transactionDetails: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        onData: function(e) {
+            var data = e.detail;
+            console.log('onData', data);
+            var tran = {
+                date: data.date,
+                description: data.description,
+                postings: [
+                    {
+                        accountId: data.posting1accountId,
+                        type: data.posting1type,
+                        amount: parseInt(data.posting1amount)
+                    },
+                   {
+                        accountId: data.posting2accountId,
+                        type: data.posting2type,
+                        amount: parseInt(data.posting2amount)
+                   }
+                ]
+            };
+            this._setTransactionDetails(tran);
+        }
+    });
+</script>

@@ -1,0 +1,50 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+
+<dom-module id="input-field">
+    <template>
+        <style>
+            div {
+                margin-bottom: 5px;
+            }
+            label {
+                display: inline-block;
+                width: 10em;
+            }
+        </style>
+        <div>
+            <label>{{_label}}</label>
+            <input type="text" name="{{name}}">
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'input-field',
+
+        properties: {
+            name:  {
+                type: String,
+                value: ''
+            },
+            label: {
+                type: String,
+                value: ''
+            },
+            _label: {
+                type: String,
+                computed: 'computeLabel(label, name)'
+            }
+        },
+
+        onData: function(e) {
+            console.log("input-field onSubmit", e);
+        },
+
+        computeLabel: function() {
+            return this.label ? this.label : _.startCase(this.name);
+        }
+    });
+</script>

@@ -1,0 +1,30 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+
+<dom-module id="submit-form">
+    <template>
+        <style>
+        </style>
+        <form id="form" on-submit="onSubmit">
+            <content></content>
+        </form>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'submit-form',
+
+        properties: {
+        },
+
+        onSubmit: function(e) {
+            e.preventDefault();
+            console.log("submit-form onSubmit", e);
+            var inputs = _.toArray(this.$.form.querySelectorAll('input[name]'));
+            var data = _.fromPairs(inputs.map(function(input) { return [input.getAttribute('name'), input.value]}))
+            this.fire('data', data);
+        }
+    });
+</script>
