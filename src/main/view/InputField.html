@@ -36,11 +36,22 @@
             _label: {
                 type: String,
                 computed: 'computeLabel(label, name)'
+            },
+
+            value: {
+                type: Object,
+                notify: true
             }
         },
 
-        onData: function(e) {
-            console.log("input-field onSubmit", e);
+        listeners: {
+            change: 'onChange'
+        },
+
+        onChange: function(e) {
+            console.log("input-field change", e);
+            this.value = e.target.value;
+            this.fire('input-field-changed', e.target.value);
         },
 
         computeLabel: function() {

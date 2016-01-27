@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+
+<dom-module id="data-group">
+    <template>
+        <style>
+        </style>
+        <div id="group">
+            <content></content>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'data-group',
+
+        properties: {
+            value: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        listeners: {
+            'input-field-changed': 'onFieldChange'
+        },
+
+        onFieldChange: function(e) {
+            console.log("data-group onFieldChange", e);
+            var inputs = _.toArray(this.$.group.querySelectorAll('input-field'));
+            var data = _.fromPairs(inputs.map(function(input) { return [input.getAttribute('name'), input.value]}));
+            this._setValue(data);
+        }
+    });
+</script>

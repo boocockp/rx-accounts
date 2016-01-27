@@ -2,6 +2,8 @@
 
 <link rel="import" href="SubmitForm.html">
 <link rel="import" href="InputField.html">
+<link rel="import" href="DataGroup.html">
+
 
 <dom-module id="transaction-entry-view">
     <template>
@@ -12,6 +14,11 @@
             <submit-form on-data-changed="onData">
                 <input-field name="date"></input-field>
                 <input-field name="description"></input-field>
+                <!--<data-group name="posting1">-->
+                    <input-field name="accountId"></input-field>
+                    <input-field name="type"></input-field>
+                    <input-field name="amount"></input-field>
+                <!--</data-group>-->
                 <input-field name="posting1accountId"></input-field>
                 <input-field name="posting1type"></input-field>
                 <input-field name="posting1amount"></input-field>

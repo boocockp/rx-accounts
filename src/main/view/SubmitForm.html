@@ -1,13 +1,15 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+<link rel="import" href="DataGroup.html">
 
 <dom-module id="submit-form">
     <template>
         <style>
         </style>
         <form id="form" on-submit="onSubmit">
-            <content></content>
+            <data-group id="theGroup">
+                <content></content>
+            </data-group>
         </form>
     </template>
 </dom-module>
@@ -27,9 +29,7 @@
         onSubmit: function(e) {
             e.preventDefault();
             console.log("submit-form onSubmit", e);
-            var inputs = _.toArray(this.$.form.querySelectorAll('input[name]'));
-            var data = _.fromPairs(inputs.map(function(input) { return [input.getAttribute('name'), input.value]}))
-            this._setData(data);
+            this._setData(this.$.theGroup.value);
         }
     });
 </script>
