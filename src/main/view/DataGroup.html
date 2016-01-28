@@ -17,22 +17,38 @@
         is: 'data-group',
 
         properties: {
+            name: {
+                type: String
+            },
             value: {
                 type: Object,
-                readOnly: true,
-                notify: true
+                notify: true,
+                value: function() { return {} }
             }
         },
 
-        listeners: {
-            'input-field-changed': 'onFieldChange'
+        ready: function() {
+            var self = this;
+            this._findImmediateFields().forEach(function(el) {
+                el.addEventListener('value-changed', function(e) {
+                    var propName = e.target.name;
+                    if (propName) {
+                        var propVal = e.target.value;
+                        self.set('value.' + propName, propVal);
+                    }
+                });
+            });
         },
 
-        onFieldChange: function(e) {
-            console.log("data-group onFieldChange", e);
-            var inputs = _.toArray(this.$.group.querySelectorAll('input-field'));
-            var data = _.fromPairs(inputs.map(function(input) { return [input.getAttribute('name'), input.value]}));
-            this._setValue(data);
+        _findImmediateFields: function() {
+            var self = this;
+            function findClosestDataGroup(el) {
+                while ((el = el.parentElement) && el.tagName != self.tagName);
+                return el;
+            }
+            return _.toArray(this.$.group.querySelectorAll('input-field,number-field,data-group')).filter(function(el) {
+                return findClosestDataGroup(el) === self;
+            });
         }
     });
 </script>

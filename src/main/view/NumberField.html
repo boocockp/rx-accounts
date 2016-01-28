@@ -2,7 +2,7 @@
 
 <script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
 
-<dom-module id="input-field">
+<dom-module id="number-field">
     <template>
         <style>
             div {
@@ -11,6 +11,10 @@
             label {
                 display: inline-block;
                 width: 10em;
+            }
+
+            input {
+                text-align: right;
             }
         </style>
         <div>
@@ -22,7 +26,7 @@
 
 <script>
     Polymer({
-        is: 'input-field',
+        is: 'number-field',
 
         properties: {
             name:  {
@@ -40,8 +44,7 @@
 
             value: {
                 type: Object,
-                notify: true,
-                value: ''
+                notify: true
             }
         },
 
@@ -50,9 +53,8 @@
         },
 
         onChange: function(e) {
-            console.log("input-field change", e);
-            this.value = e.target.value;
-//            this.fire('input-field-changed', e.target.value);
+            console.log("number-field change", e);
+            this.value = parseInt(e.target.value);
         },
 
         computeLabel: function() {

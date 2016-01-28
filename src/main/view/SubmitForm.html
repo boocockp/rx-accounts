@@ -30,6 +30,7 @@
             e.preventDefault();
             console.log("submit-form onSubmit", e);
             this._setData(this.$.theGroup.value);
+            e.detail = {value: this.$.theGroup.value};
         }
     });
 </script>

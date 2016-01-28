@@ -2,6 +2,7 @@
 
 <link rel="import" href="SubmitForm.html">
 <link rel="import" href="InputField.html">
+<link rel="import" href="NumberField.html">
 <link rel="import" href="DataGroup.html">
 
 
@@ -11,20 +12,20 @@
         </style>
         <div class="transactionEntryContainer">
             <h2>Enter Transaction</h2>
-            <submit-form on-data-changed="onData">
+            <submit-form on-submit="onData">
                 <input-field name="date"></input-field>
                 <input-field name="description"></input-field>
-                <!--<data-group name="posting1">-->
+                <data-group name="posting1">
                     <input-field name="accountId"></input-field>
                     <input-field name="type"></input-field>
-                    <input-field name="amount"></input-field>
-                <!--</data-group>-->
-                <input-field name="posting1accountId"></input-field>
-                <input-field name="posting1type"></input-field>
-                <input-field name="posting1amount"></input-field>
-                <input-field name="posting2accountId"></input-field>
-                <input-field name="posting2type"></input-field>
-                <input-field name="posting2amount"></input-field>
+                    <number-field name="amount"></number-field>
+                </data-group>
+                <data-group name="posting2">
+                    <input-field name="accountId"></input-field>
+                    <input-field name="type"></input-field>
+                    <number-field name="amount"></number-field>
+                </data-group>
+
                 <button type="submit">Save</button>
             </submit-form>
         </div>
@@ -49,18 +50,7 @@
             var tran = {
                 date: data.date,
                 description: data.description,
-                postings: [
-                    {
-                        accountId: data.posting1accountId,
-                        type: data.posting1type,
-                        amount: parseInt(data.posting1amount)
-                    },
-                   {
-                        accountId: data.posting2accountId,
-                        type: data.posting2type,
-                        amount: parseInt(data.posting2amount)
-                   }
-                ]
+                postings: [ data.posting1, data.posting2 ]
             };
             this._setTransactionDetails(tran);
         }
