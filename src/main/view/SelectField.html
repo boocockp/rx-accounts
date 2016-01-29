@@ -8,6 +8,7 @@
             div {
                 margin-bottom: 5px;
             }
+
             label {
                 display: inline-block;
                 width: 10em;
@@ -15,7 +16,7 @@
         </style>
         <div>
             <label>{{_label}}</label>
-            <select name="{{name}}">
+            <select id="select" name="{{name}}" value="{{value::change}}">
                 <template is="dom-repeat" items="[[_options]]">
                     <option value="{{item.value}}">{{item.label}}</option>
                 </template>
@@ -29,7 +30,7 @@
         is: 'select-field',
 
         properties: {
-            name:  {
+            name: {
                 type: String,
                 value: ''
             },
@@ -44,18 +45,18 @@
 
             value: {
                 type: Object,
-                notify: true,
-                value: ''
+                notify: true/*,
+                observer: 'onValue'*/
             },
 
-            opts: {
+            options: {
                 type: Array,
                 value: []
             },
 
             _options: {
                 type: Array,
-                computed: 'computeOptions(opts)'
+                computed: 'computeOptions(options)'
             }
 
         },
@@ -64,17 +65,18 @@
             change: 'onChange'
         },
 
-        onChange: function(e) {
-            console.log("select-field change", e);
-            this.value = e.target.value;
+        ready: function () {
+            if (typeof this.value === 'undefined') {
+                this.value = this.$.select.value;
+            }
         },
 
-        computeLabel: function() {
+        computeLabel: function () {
             return this.label ? this.label : _.startCase(this.name);
         },
 
-        computeOptions: function() {
-            return this.opts.map(function(opt) {
+        computeOptions: function () {
+            return this.options.map(function (opt) {
                 return {label: opt[0], value: opt[1]}
             })
         }

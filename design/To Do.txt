@@ -1,0 +1,4 @@
+To Do
+=====
+
+- Select field: sync value and selected item even if none selected
