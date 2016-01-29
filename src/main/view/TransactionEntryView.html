@@ -3,6 +3,7 @@
 <link rel="import" href="SubmitForm.html">
 <link rel="import" href="InputField.html">
 <link rel="import" href="NumberField.html">
+<link rel="import" href="SelectField.html">
 <link rel="import" href="DataGroup.html">
 
 
@@ -17,12 +18,12 @@
                 <input-field name="description"></input-field>
                 <data-group name="posting1">
                     <input-field name="accountId"></input-field>
-                    <input-field name="type"></input-field>
+                    <select-field name="type" opts='[ ["Debit", "DR"], ["Credit", "CR"] ]' foo="bar" value="DR"></select-field>
                     <number-field name="amount"></number-field>
                 </data-group>
                 <data-group name="posting2">
                     <input-field name="accountId"></input-field>
-                    <input-field name="type"></input-field>
+                    <select-field name="type" opts='[ ["Debit", "DR"], ["Credit", "CR"] ]' foo="bar"></select-field>
                     <number-field name="amount"></number-field>
                 </data-group>
 

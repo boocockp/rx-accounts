@@ -46,7 +46,7 @@
                 while ((el = el.parentElement) && el.tagName != self.tagName);
                 return el;
             }
-            return _.toArray(this.$.group.querySelectorAll('input-field,number-field,data-group')).filter(function(el) {
+            return _.toArray(this.$.group.querySelectorAll('input-field,number-field,select-field,data-group')).filter(function(el) {
                 return findClosestDataGroup(el) === self;
             });
         }

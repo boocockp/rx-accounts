@@ -1,0 +1,82 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
+
+<dom-module id="select-field">
+    <template>
+        <style>
+            div {
+                margin-bottom: 5px;
+            }
+            label {
+                display: inline-block;
+                width: 10em;
+            }
+        </style>
+        <div>
+            <label>{{_label}}</label>
+            <select name="{{name}}">
+                <template is="dom-repeat" items="[[_options]]">
+                    <option value="{{item.value}}">{{item.label}}</option>
+                </template>
+            </select>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'select-field',
+
+        properties: {
+            name:  {
+                type: String,
+                value: ''
+            },
+            label: {
+                type: String,
+                value: ''
+            },
+            _label: {
+                type: String,
+                computed: 'computeLabel(label, name)'
+            },
+
+            value: {
+                type: Object,
+                notify: true,
+                value: ''
+            },
+
+            opts: {
+                type: Array,
+                value: []
+            },
+
+            _options: {
+                type: Array,
+                computed: 'computeOptions(opts)'
+            }
+
+        },
+
+        listeners: {
+            change: 'onChange'
+        },
+
+        onChange: function(e) {
+            console.log("select-field change", e);
+            this.value = e.target.value;
+        },
+
+        computeLabel: function() {
+            return this.label ? this.label : _.startCase(this.name);
+        },
+
+        computeOptions: function() {
+            return this.opts.map(function(opt) {
+                return {label: opt[0], value: opt[1]}
+            })
+        }
+    });
+</script>
