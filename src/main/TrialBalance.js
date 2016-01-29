@@ -16,7 +16,7 @@ function fromEach(stream, property) {
 function zip(objOfStreams) {
     let names = _.keys(objOfStreams);
     let streams = _.values(objOfStreams);
-    let zipFn = function() {
+    let zipFn = function () {
         let args = _.toArray(arguments);
         return _.zipObject(names, args);
     };
@@ -49,12 +49,10 @@ export default class TrialBalance {
     }
 
     get balanceTotals2() {
-        let resultFn = function (it) {
-            return {
-                debit: sum(fromEach(it, 'debitBalance')),
-                credit: sum(fromEach(it, 'creditBalance'))
-            }
-        };
+        let resultFn = (it) => ( {
+            debit: sum(fromEach(it, 'debitBalance')),
+            credit: sum(fromEach(it, 'creditBalance'))
+        } );
 
         return this.accountBalances.flatMap(function (it) {
             return zip(resultFn(it))
