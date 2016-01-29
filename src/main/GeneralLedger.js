@@ -38,7 +38,7 @@ export default class GeneralLedger {
     }
 
     trialBalance() {
-        return new TrialBalance(this.accounts());    // TODO should be just one shared instance?
+        return new TrialBalance(this.accounts());    // TODO should be just one shared instance? Or just construct when needed?
     }
 
     addIds(details) {
