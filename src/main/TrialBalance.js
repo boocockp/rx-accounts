@@ -23,6 +23,12 @@ function zip(objOfStreams) {
     return Rx.Observable.zip(streams, zipFn);
 }
 
+function zipAndFlatmap(stream, resultFn) {
+    return stream.flatMap(function (it) {
+        return zip(resultFn(it))
+    });
+}
+
 export default class TrialBalance {
     constructor(accounts) {
         this.accountList = accounts;
@@ -40,23 +46,10 @@ export default class TrialBalance {
     }
 
     get balanceTotals() {
-        return this.accountBalances.flatMap((summaryList) => {
-            let slStream = Rx.Observable.from(summaryList);
-            let debit = slStream.pluck('debitBalance').sum();
-            let credit = slStream.pluck('creditBalance').sum();
-            return Rx.Observable.zip(debit, credit, (d, c) => ({debit: d, credit: c}));
-        });
-    }
-
-    get balanceTotals2() {
-        let resultFn = (it) => ( {
+        return zipAndFlatmap(this.accountBalances, (it) => ( {
             debit: sum(fromEach(it, 'debitBalance')),
             credit: sum(fromEach(it, 'creditBalance'))
-        } );
-
-        return this.accountBalances.flatMap(function (it) {
-            return zip(resultFn(it))
-        });
+        } ) );
     }
 
 }
