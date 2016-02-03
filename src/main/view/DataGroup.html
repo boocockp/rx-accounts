@@ -27,28 +27,38 @@
             }
         },
 
-        ready: function() {
+        listeners: {
+            'component-ready': 'onComponentReady'
+        },
+
+        onComponentReady: function(e) {
+            if (e.target === this) return;
+            e.stopPropagation();
+
+            var el = e.target;
+            var propName = el.name;
+            var propVal = el.value;
+            console.log('onComponentReady', propName, propVal);
+            this.set('value.' + propName, propVal);
+
             var self = this;
-            this._findImmediateFields().forEach(function(el) {
-                el.addEventListener('value-changed', function(e) {
-                    var propName = e.target.name;
-                    if (propName) {
-                        var propVal = e.target.value;
-                        self.set('value.' + propName, propVal);
-                    }
-                });
+            el.addEventListener('value-changed', function(e) {
+                var el = e.target;
+                var propName = el.name;
+                var propVal = el.value;
+                self.set('value.' + propName, propVal);
             });
         },
 
-        _findImmediateFields: function() {
-            var self = this;
-            function findClosestDataGroup(el) {
-                while ((el = el.parentElement) && el.tagName != self.tagName);
-                return el;
+        observers: [
+            '_notifyReady(name, value)'
+        ],
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
             }
-            return _.toArray(this.$.group.querySelectorAll('input-field,number-field,select-field,data-group')).filter(function(el) {
-                return findClosestDataGroup(el) === self;
-            });
         }
     });
 </script>

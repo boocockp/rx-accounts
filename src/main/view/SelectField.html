@@ -16,9 +16,9 @@
         </style>
         <div>
             <label>{{_label}}</label>
-            <select id="select" name="{{name}}" value="{{value::change}}">
+            <select id="select" name="{{name}}">
                 <template is="dom-repeat" items="[[_options]]">
-                    <option value="{{item.value}}">{{item.label}}</option>
+                    <option value="{{item.value}}"  selected="{{item.selected}}">{{item.label}}</option>
                 </template>
             </select>
         </div>
@@ -45,13 +45,12 @@
 
             value: {
                 type: Object,
-                notify: true/*,
-                observer: 'onValue'*/
+                notify: true,
+                observer: 'onValue'
             },
 
             options: {
-                type: Array,
-                value: []
+                type: Array
             },
 
             _options: {
@@ -61,24 +60,64 @@
 
         },
 
+        observers: [
+            '_notifyReady(name, value, options)'
+        ],
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
+            }
+        },
+
         listeners: {
             change: 'onChange'
         },
 
-        ready: function () {
-            if (typeof this.value === 'undefined') {
-                this.value = this.$.select.value;
-            }
+        onValue: function(value) {
+            this.$.select.value = value;
         },
 
+        onChange: function(e) {
+            console.log("select-field change", e);
+            this.value = e.target.value;
+        },
+
+        ready: function () {
+            console.log('ready options', this.$.select.options.length);
+
+        },
+
+//        attached: function() {
+//            console.log('attached options', this.$.select.options.length);
+//            var self = this;
+//            this.async(function() {
+//                console.log('attached async options', self.$.select.options.length);
+//                if (typeof this.value === 'undefined') {
+//                    self.value = self.$.select.value;
+//                } else {
+//                    self.$.select.value = self.value;
+//                }
+//            });
+//        },
+//
         computeLabel: function () {
             return this.label ? this.label : _.startCase(this.name);
         },
 
-        computeOptions: function () {
-            return this.options.map(function (opt) {
-                return {label: opt[0], value: opt[1]}
-            })
+        computeOptions: function (options) {
+            var self = this;
+            var labelValues = options.map(function (opt) {
+                return {label: opt[0], value: opt[1], selected: opt[1] == self.value}
+            });
+
+            if (typeof this.value === 'undefined') {
+                this.value = labelValues[0].value;
+            }
+
+
+            return labelValues;
         }
     });
 </script>

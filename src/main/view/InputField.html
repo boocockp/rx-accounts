@@ -49,6 +49,17 @@
             change: 'onChange'
         },
 
+        observers: [
+            '_notifyReady(name, value)'
+        ],
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
+            }
+        },
+
         onChange: function(e) {
             console.log("input-field change", e);
             this.value = e.target.value;

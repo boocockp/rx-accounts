@@ -16,13 +16,13 @@
     </style>
 </head>
 <body>
-<h1>Accounts</h1>
+<!--<h1>Accounts</h1>-->
 
     <template is="dom-bind">
         <general-ledger accounts-str="{{accounts}}" transaction-details="{{transactionDetails}}"></general-ledger>
         <trial-balance-calc accounts="{{accounts}}" account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-calc>
         <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
-        <transaction-entry-view transaction-details="{{transactionDetails}}"></transaction-entry-view>
+        <transaction-entry-view transaction-details="{{transactionDetails}}" account-balances="{{accountBalances}}" ></transaction-entry-view>
     </template>
 
 <script>

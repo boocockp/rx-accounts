@@ -17,13 +17,13 @@
                 <input-field name="date"></input-field>
                 <input-field name="description"></input-field>
                 <data-group name="posting1">
-                    <input-field name="accountId"></input-field>
-                    <select-field name="type" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' foo="bar" value="DR"></select-field>
+                    <select-field name="accountId" options='[[accountOptions]]'></select-field>
+                    <select-field name="type" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' value="DR"></select-field>
                     <number-field name="amount"></number-field>
                 </data-group>
                 <data-group name="posting2">
-                    <input-field name="accountId"></input-field>
-                    <select-field name="type" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' foo="bar" value="CR"></select-field>
+                    <select-field name="accountId" options='[[accountOptions]]'></select-field>
+                    <select-field name="type" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' value="CR"></select-field>
                     <number-field name="amount"></number-field>
                 </data-group>
 
@@ -38,6 +38,10 @@
         is: 'transaction-entry-view',
 
         properties: {
+            accountBalances: {
+                type: Array,
+                observer: 'onAccountBalances'
+            },
             transactionDetails: {
                 type: Object,
                 readOnly: true,
@@ -54,6 +58,10 @@
                 postings: [ data.posting1, data.posting2 ]
             };
             this._setTransactionDetails(tran);
+        },
+
+        onAccountBalances: function(bals) {
+            this.accountOptions = bals.map( function(b) { return [b.name, b.id]})
         }
     });
 </script>

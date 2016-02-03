@@ -48,6 +48,12 @@ Development approach
 - How do you name streams? After the value in each event?  Singular or plural?
 - Can you treat fixed lists and streams within a value as equivalent? Eg transaction postings with flatMap
 
+Using streams in view components
+--------------------------------
+- Adapter component to take stream and convert to readOnly property with notify
+- May be two levels eg to get account ids and names
+- May need to have component to surface account name list, like TrialBalance.accountBalances, but uses details instead of summary
+
 ToDo
 ----
 - Work out publish and replay and share to avoid messing with Subjects

@@ -44,7 +44,19 @@
 
             value: {
                 type: Object,
-                notify: true
+                notify: true,
+                value: null
+            }
+        },
+
+        observers: [
+            '_notifyReady(name, value)'
+        ],
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
             }
         },
 
