@@ -1,7 +1,9 @@
+<link rel="import" href="NotifyReadyBehavior.html">
+
 <script>
     window.FieldBehaviors = window.FieldBehaviors || {};
 
-    FieldBehaviors.FieldBehavior = {
+    var FieldBehaviorImpl = {
 
         properties: {
             name:  {
@@ -24,10 +26,6 @@
             change: 'onChange'
         },
 
-        observers: [
-            '_notifyReady(name, value)'
-        ],
-
         onChange: function(e) {
             console.log(this.tagName.toLowerCase() + " change", e);
             this.value = this._getValue(e.target);
@@ -37,15 +35,10 @@
             return el.value;
         },
 
-        _notifyReady: function() {
-            if (!this._readyNotified) {
-                this.fire('component-ready');
-                this._readyNotified = true;
-            }
-        },
-
         computeLabel: function() {
             return this.label ? this.label : _.startCase(this.name);
         }
-    }
+    };
+
+    FieldBehaviors.FieldBehavior = [FieldBehaviors.NotifyReadyBehavior, FieldBehaviorImpl];
 </script>

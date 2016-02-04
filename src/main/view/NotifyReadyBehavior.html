@@ -1,0 +1,22 @@
+<script>
+    window.FieldBehaviors = window.FieldBehaviors || {};
+
+    FieldBehaviors.NotifyReadyBehavior = {
+
+        observers: [
+            '_notifyReady(name, value)'
+        ],
+
+        onChange: function(e) {
+            console.log(this.tagName.toLowerCase() + " change", e);
+            this.value = this._getValue(e.target);
+        },
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
+            }
+        }
+    }
+</script>

@@ -1,4 +1,5 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="NotifyReadyBehavior.html">
 
 <script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
 
@@ -15,6 +16,8 @@
 <script>
     Polymer({
         is: 'data-group',
+
+        behaviors: [FieldBehaviors.NotifyReadyBehavior],
 
         properties: {
             name: {
@@ -48,17 +51,6 @@
                 var propVal = el.value;
                 self.set('value.' + propName, propVal);
             });
-        },
-
-        observers: [
-            '_notifyReady(name, value)'
-        ],
-
-        _notifyReady: function() {
-            if (!this._readyNotified) {
-                this.fire('component-ready');
-                this._readyNotified = true;
-            }
         }
     });
 </script>
