@@ -33,7 +33,7 @@
 
         properties: {
             value: {
-                type: Object,
+                type: Number,
                 notify: true,
                 value: null
             }
@@ -43,13 +43,6 @@
             '_notifyReady(name, value)'
         ],
 
-        _notifyReady: function() {
-            if (!this._readyNotified) {
-                this.fire('component-ready');
-                this._readyNotified = true;
-            }
-        },
-
         listeners: {
             change: 'onChange'
         },
@@ -57,10 +50,6 @@
         onChange: function(e) {
             console.log("number-field change", e);
             this.value = parseInt(e.target.value);
-        },
-
-        computeLabel: function() {
-            return this.label ? this.label : _.startCase(this.name);
         }
     });
 </script>

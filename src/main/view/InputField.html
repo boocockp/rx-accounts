@@ -29,7 +29,7 @@
 
         properties: {
             value: {
-                type: Object,
+                type: String,
                 notify: true,
                 value: ''
             }
@@ -46,11 +46,6 @@
         onChange: function(e) {
             console.log("input-field change", e);
             this.value = e.target.value;
-//            this.fire('input-field-changed', e.target.value);
-        },
-
-        computeLabel: function() {
-            return this.label ? this.label : _.startCase(this.name);
         }
     });
 </script>

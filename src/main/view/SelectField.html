@@ -34,7 +34,7 @@
 
         properties: {
             value: {
-                type: Object,
+                type: String,
                 notify: true,
                 observer: 'onValue'
             },
@@ -54,13 +54,6 @@
             '_notifyReady(name, value, options)'
         ],
 
-        _notifyReady: function() {
-            if (!this._readyNotified) {
-                this.fire('component-ready');
-                this._readyNotified = true;
-            }
-        },
-
         listeners: {
             change: 'onChange'
         },
@@ -72,28 +65,6 @@
         onChange: function(e) {
             console.log("select-field change", e);
             this.value = e.target.value;
-        },
-
-        ready: function () {
-            console.log('ready options', this.$.select.options.length);
-
-        },
-
-//        attached: function() {
-//            console.log('attached options', this.$.select.options.length);
-//            var self = this;
-//            this.async(function() {
-//                console.log('attached async options', self.$.select.options.length);
-//                if (typeof this.value === 'undefined') {
-//                    self.value = self.$.select.value;
-//                } else {
-//                    self.$.select.value = self.value;
-//                }
-//            });
-//        },
-//
-        computeLabel: function () {
-            return this.label ? this.label : _.startCase(this.name);
         },
 
         computeOptions: function (options) {
