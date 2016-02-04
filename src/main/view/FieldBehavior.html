@@ -1,0 +1,32 @@
+<script>
+    window.FieldBehaviors = window.FieldBehaviors || {};
+
+    FieldBehaviors.FieldBehavior = {
+
+        properties: {
+            name:  {
+                type: String,
+                value: ''
+            },
+            label: {
+                type: String,
+                value: ''
+            },
+            _label: {
+                type: String,
+                computed: 'computeLabel(label, name)'
+            }
+
+
+        },
+
+        _notifyReady: function() {
+            if (!this._readyNotified) {
+                this.fire('component-ready');
+                this._readyNotified = true;
+            }
+        }
+
+
+    }
+</script>

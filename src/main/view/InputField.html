@@ -1,4 +1,5 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="FieldBehavior.html">
 
 <script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
 
@@ -24,20 +25,9 @@
     Polymer({
         is: 'input-field',
 
-        properties: {
-            name:  {
-                type: String,
-                value: ''
-            },
-            label: {
-                type: String,
-                value: ''
-            },
-            _label: {
-                type: String,
-                computed: 'computeLabel(label, name)'
-            },
+        behaviors: [FieldBehaviors.FieldBehavior],
 
+        properties: {
             value: {
                 type: Object,
                 notify: true,
@@ -52,13 +42,6 @@
         observers: [
             '_notifyReady(name, value)'
         ],
-
-        _notifyReady: function() {
-            if (!this._readyNotified) {
-                this.fire('component-ready');
-                this._readyNotified = true;
-            }
-        },
 
         onChange: function(e) {
             console.log("input-field change", e);
