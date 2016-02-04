@@ -24,6 +24,10 @@
             change: 'onChange'
         },
 
+        observers: [
+            '_notifyReady(name, value)'
+        ],
+
         onChange: function(e) {
             console.log(this.tagName.toLowerCase() + " change", e);
             this.value = this._getValue(e.target);
