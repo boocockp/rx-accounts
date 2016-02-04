@@ -54,17 +54,8 @@
             '_notifyReady(name, value, options)'
         ],
 
-        listeners: {
-            change: 'onChange'
-        },
-
         onValue: function(value) {
             this.$.select.value = value;
-        },
-
-        onChange: function(e) {
-            console.log("select-field change", e);
-            this.value = e.target.value;
         },
 
         computeOptions: function (options) {

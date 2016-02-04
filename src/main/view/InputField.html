@@ -35,17 +35,9 @@
             }
         },
 
-        listeners: {
-            change: 'onChange'
-        },
-
         observers: [
             '_notifyReady(name, value)'
-        ],
+        ]
 
-        onChange: function(e) {
-            console.log("input-field change", e);
-            this.value = e.target.value;
-        }
     });
 </script>

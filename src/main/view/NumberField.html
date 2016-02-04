@@ -43,13 +43,9 @@
             '_notifyReady(name, value)'
         ],
 
-        listeners: {
-            change: 'onChange'
-        },
-
-        onChange: function(e) {
-            console.log("number-field change", e);
-            this.value = parseInt(e.target.value);
+        _getValue: function(el) {
+            return parseInt(el.value);
         }
+
     });
 </script>

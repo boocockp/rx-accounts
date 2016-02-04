@@ -20,6 +20,19 @@
 
         },
 
+        listeners: {
+            change: 'onChange'
+        },
+
+        onChange: function(e) {
+            console.log(this.tagName.toLowerCase() + " change", e);
+            this.value = this._getValue(e.target);
+        },
+
+        _getValue: function(el) {
+            return el.value;
+        },
+
         _notifyReady: function() {
             if (!this._readyNotified) {
                 this.fire('component-ready');
