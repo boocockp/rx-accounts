@@ -8,6 +8,8 @@
     <link rel="import" href="view/TrialBalanceCalc.html">
     <link rel="import" href="view/TrialBalanceView.html">
     <link rel="import" href="view/TransactionEntryView.html">
+    <link rel="import" href="view/AccountListView.html">
+    <link rel="import" href="view/AccountUpdateView.html">
 
     <style>
         body {
@@ -19,10 +21,13 @@
 <!--<h1>Accounts</h1>-->
 
     <template is="dom-bind">
-        <general-ledger accounts-str="{{accounts}}" transaction-details="{{transactionDetails}}"></general-ledger>
+        <general-ledger accounts-str="{{accounts}}" transaction-details="{{transactionDetails}}" account-details="{{updatedAccountDetails}}"></general-ledger>
         <trial-balance-calc accounts="{{accounts}}" account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-calc>
         <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
         <transaction-entry-view transaction-details="{{transactionDetails}}" account-balances="{{accountBalances}}" ></transaction-entry-view>
+
+        <account-list-view values="{{accountBalances}}"></account-list-view>
+        <account-update-view value="{{accountBalances}}" updated-value="{{updatedAccountDetails}}"></account-update-view>
     </template>
 
 <script>

@@ -1,0 +1,46 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="SubmitForm.html">
+<link rel="import" href="InputField.html">
+<link rel="import" href="NumberField.html">
+<link rel="import" href="SelectField.html">
+<link rel="import" href="DataGroup.html">
+
+
+<dom-module id="account-update-view">
+    <template>
+        <style>
+        </style>
+        <div class="account-update-container">
+            <h2>Account Details</h2>
+            <submit-form value="[[value]]" submitted-value="{{updatedValue}}" on-submit="onSubmit">
+                <input-field name="id" readonly="true"></input-field>
+                <input-field name="name"></input-field>
+
+                <button type="submit">Save</button>
+            </submit-form>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'account-update-view',
+
+        properties: {
+            value: {
+                type: Object
+            },
+
+            updatedValue: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        onSubmit: function(e) {
+            this._setUpdatedValue(e.detail.value);
+        }
+    });
+</script>

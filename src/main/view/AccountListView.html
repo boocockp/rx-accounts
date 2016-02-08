@@ -1,0 +1,51 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="SubmitForm.html">
+<link rel="import" href="InputField.html">
+<link rel="import" href="NumberField.html">
+<link rel="import" href="SelectField.html">
+<link rel="import" href="DataGroup.html">
+
+
+<dom-module id="account-list-view">
+    <template>
+        <style>
+        </style>
+        <div class="account-update-container">
+            <h2>Accounts</h2>
+            <ul>
+                <template is="dom-repeat" items="[[values]]">
+                    <li index="{{index}}">[[item.name]]</li>
+                </template>
+            </ul>
+
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'account-list-view',
+
+        properties: {
+            values: {
+                type: Array
+            },
+
+            selectedValue: {
+                type: Object,
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        listeners: {
+            click: 'onClick'
+        },
+
+        onClick: function(e) {
+            var index = e.target.index;
+            this._setSelectedValue(this.values[index]);
+        }
+    });
+</script>

@@ -1,4 +1,16 @@
 To Do
 =====
 
+Next
+----
+
+Improvements
+------------
+- accountBalances not  side effect of trial balance
+- Data List
+- Transaction entry view - take data direct from submit form updated value - postings in data list
+- Tran entry view - accountBals is computed property - better?
+
+Done
+----
 - Select field: sync value and selected item even if none selected

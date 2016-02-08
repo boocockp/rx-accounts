@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="DataGroup.html">
+<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
 
 <dom-module id="submit-form">
     <template>
@@ -19,7 +20,7 @@
         is: 'submit-form',
 
         properties: {
-            data: {
+            submittedValue: {
                 type: Object,
                 readOnly: true,
                 notify: true
@@ -29,8 +30,8 @@
         onSubmit: function(e) {
             e.preventDefault();
             console.log("submit-form onSubmit", e);
-            this._setData(this.$.theGroup.value);
-            e.detail = {value: this.$.theGroup.value};
+            this._setSubmittedValue(this.$.theGroup.value);
+            e.detail = {value: _.cloneDeep(this.$.theGroup.value)};
         }
     });
 </script>

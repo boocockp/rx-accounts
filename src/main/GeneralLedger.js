@@ -46,6 +46,6 @@ export default class GeneralLedger {
     }
 
     withNewId(obj) {
-        return obj.id ? obj : Object.assign({id: `id_${++lastId}`}, obj);
+        return obj.id ? obj : Object.assign({}, obj, {id: `id_${++lastId}`});
     }
 }
