@@ -8,7 +8,7 @@
         <style>
         </style>
         <form id="form" on-submit="onSubmit">
-            <data-group id="theGroup">
+            <data-group id="theGroup" value="[[value]]">
                 <content></content>
             </data-group>
         </form>
@@ -20,6 +20,11 @@
         is: 'submit-form',
 
         properties: {
+            value: {
+                type: Object
+
+            },
+
             submittedValue: {
                 type: Object,
                 readOnly: true,

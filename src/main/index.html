@@ -26,8 +26,8 @@
         <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
         <transaction-entry-view transaction-details="{{transactionDetails}}" account-balances="{{accountBalances}}" ></transaction-entry-view>
 
-        <account-list-view values="{{accountBalances}}"></account-list-view>
-        <account-update-view value="{{accountBalances}}" updated-value="{{updatedAccountDetails}}"></account-update-view>
+        <account-list-view values="{{accountBalances}}" selected-value="{{selectedValue}}"></account-list-view>
+        <account-update-view value="{{selectedValue}}" updated-value="{{updatedAccountDetails}}"></account-update-view>
     </template>
 
 <script>

@@ -1,8 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="NotifyReadyBehavior.html">
 
-<script src="../../../bower_components/lodash/dist/lodash.min.js"></script>
-
+<script src="../../../dist/accounts.js"></script>
 <dom-module id="data-group">
     <template>
         <style>
@@ -14,8 +13,12 @@
 </dom-module>
 
 <script>
+    var _ = require('lodash');
+
     Polymer({
         is: 'data-group',
+
+        components: {},
 
         behaviors: [FieldBehaviors.NotifyReadyBehavior],
 
@@ -26,7 +29,8 @@
             value: {
                 type: Object,
                 notify: true,
-                value: function() { return {} }
+                value: function() { return {} },
+                observer: '_onValue'
             }
         },
 
@@ -42,6 +46,7 @@
             var propName = el.name;
             var propVal = el.value;
             console.log('onComponentReady', propName, propVal);
+            this.components[propName] = el;
             this.set('value.' + propName, propVal);
 
             var self = this;
@@ -51,6 +56,14 @@
                 var propVal = el.value;
                 self.set('value.' + propName, propVal);
             });
+        },
+
+        _onValue(newValue, oldValue) {
+            console.log('_onValue', newValue, oldValue);
+            _.forIn(newValue, function(propVal, propName) {
+                var component = this.components[propName];
+                if (component) component.value = propVal;
+            }.bind(this));
         }
     });
 </script>
