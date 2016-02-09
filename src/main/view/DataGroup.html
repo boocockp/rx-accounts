@@ -60,9 +60,8 @@
 
         _onValue(newValue, oldValue) {
             console.log('_onValue', newValue, oldValue);
-            _.forIn(newValue, function(propVal, propName) {
-                var component = this.components[propName];
-                if (component) component.value = propVal;
+            _.forIn(this.components, function(component, name) {
+                component.value = (newValue && newValue[name] || null);
             }.bind(this));
         }
     });

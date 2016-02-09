@@ -20,7 +20,7 @@
         </style>
         <div>
             <label>{{_label}}</label>
-            <input type="text" name="{{name}}">
+            <input type="text" name="{{name}}" value="[[value]]">
         </div>
     </template>
 </dom-module>
@@ -40,7 +40,7 @@
         },
 
         _getValue: function(el) {
-            return parseInt(el.value);
+            return el.value.trim() ? parseInt(el.value) : null;
         }
 
     });

@@ -36,7 +36,7 @@
             value: {
                 type: String,
                 notify: true,
-                observer: 'onValue'
+                observer: '_onValue'
             },
 
             options: {
@@ -54,7 +54,7 @@
             '_notifyReady(name, value, options)'
         ],
 
-        onValue: function(value) {
+        _onValue: function(value) {
             this.$.select.value = value;
         },
 
@@ -67,7 +67,6 @@
             if (typeof this.value === 'undefined') {
                 this.value = labelValues[0].value;
             }
-
 
             return labelValues;
         }

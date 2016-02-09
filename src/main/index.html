@@ -8,7 +8,7 @@
     <link rel="import" href="view/TrialBalanceCalc.html">
     <link rel="import" href="view/TrialBalanceView.html">
     <link rel="import" href="view/TransactionEntryView.html">
-    <link rel="import" href="view/AccountListView.html">
+    <link rel="import" href="view/AccountSelectCreateView.html">
     <link rel="import" href="view/AccountUpdateView.html">
 
     <style>
@@ -26,7 +26,7 @@
         <trial-balance-view account-balances="{{accountBalances}}"  balance-totals="{{balanceTotals}}"></trial-balance-view>
         <transaction-entry-view transaction-details="{{transactionDetails}}" account-balances="{{accountBalances}}" ></transaction-entry-view>
 
-        <account-list-view values="{{accountBalances}}" selected-value="{{selectedValue}}"></account-list-view>
+        <account-select-create-view values="{{accountBalances}}" selected-value="{{selectedValue}}"></account-select-create-view>
         <account-update-view value="{{selectedValue}}" updated-value="{{updatedAccountDetails}}"></account-update-view>
     </template>
 

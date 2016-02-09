@@ -6,6 +6,7 @@ Next
 
 Improvements
 ------------
+- account lists sorted
 - accountBalances not  side effect of trial balance
 - Data List
 - Transaction entry view - take data direct from submit form updated value - postings in data list
