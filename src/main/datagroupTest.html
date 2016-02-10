@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Group Test</title>
+
+    <link rel="import" href="view/DataGroup.html">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+</script>
+
+    <h3>Data Group Test</h3>
+
+    <template is="dom-bind" id="t1">
+        <data-group id="dg1" name="group1" value="{{theData}}">
+            <template class="d-group">
+                <p>
+                    Label: <span>{{value.label}}</span>
+                </p>
+                <p>
+                    Input: <input type="text" value="{{value.text::change}}" />
+                </p>
+            </template>
+        </data-group>
+    </template>
+
+<script>
+
+    var t1 = document.querySelector('#t1');
+
+    // The dom-change event signifies when the template has stamped its DOM.
+    t1.addEventListener('dom-change', function() {
+        var dg1 = document.getElementById('dg1');
+        var theData = { label: "I'm a label!", text: 'What I say'};
+        dg1.value = theData;
+    });
+
+</script>
+
+</body>
+</html>

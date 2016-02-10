@@ -1,26 +1,17 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="NotifyReadyBehavior.html">
 
-<script src="../../../dist/accounts.js"></script>
 <dom-module id="data-group">
     <template>
-        <style>
-        </style>
-        <div id="group">
-            <content></content>
-        </div>
+        <div id="output"></div>
+        <content id="templates" select="template.d-group"></content>
     </template>
 </dom-module>
 
 <script>
-    var _ = require('lodash');
-
     Polymer({
         is: 'data-group',
 
-//        components: {},
-
-        behaviors: [FieldBehaviors.NotifyReadyBehavior],
+        behaviors: [Polymer.Templatizer],
 
         properties: {
             name: {
@@ -31,62 +22,35 @@
                 notify: true,
                 value: function() { return {} },
                 observer: '_onValue'
-            },
-
-            components: {
-                type: Object,
-                value: function() { return {} }
             }
         },
 
-        listeners: {
-            'component-ready': 'onComponentReady'
+        ready: function() {
+            var template = Polymer.dom(this.$.templates).getDistributedNodes()[0];
+            this.templatize(template);
+
+            this.instance = this.stamp({});
+            Polymer.dom(this.$.output).appendChild(this.instance.root);
         },
 
-        setDefaultValue: function() {
-            _.forIn(this.components, function(component, name) {
-                if (component.setDefaultValue) {
-                    component.setDefaultValue();
-                } else {
-                    component.value = null;
-                }
-            });
-
+        _onValue: function(newValue, oldValue) {
+            this.instance && (this.instance.value = newValue);
         },
 
-        onComponentReady: function(e) {
-            if (e.target === this) return;
-            e.stopPropagation();
-
-            var el = e.target;
-            var propName = el.name;
-            var propVal = el.value;
-            console.log('onComponentReady', propName, propVal);
-            this.components[propName] = el;
-            this.set('value.' + propName, propVal);
-
-            var self = this;
-            el.addEventListener('value-changed', function(e) {
-                var el = e.target;
-                var propName = el.name;
-                var propVal = el.value;
-                self.set('value.' + propName, propVal);
-            });
+        _forwardParentProp: function(prop, value){
+            console.warn('_forwardParentProp',arguments);
+        },
+        _forwardParentPath: function(prop, value){
+            console.warn('_forwardParentPath',arguments);
         },
 
-        _onValue(newValue, oldValue) {
-            console.log('_onValue', this.name, newValue, oldValue);
-            _.forIn(this.components, function(component, name) {
-                if (this.value[name]) {
-                    component.value = this.value[name];
-                } else {
-                    if (component.setDefaultValue) {
-                        component.setDefaultValue();
-                    } else {
-                        component.value = null;
-                    }
-                }
-            }.bind(this));
+        _forwardInstanceProp: function(inst, prop, value) {
+            console.log('_forwardInstanceProp', arguments);
+        },
+
+        _forwardInstancePath: function(inst, path, value) {
+            console.log('_forwardInstancePath', arguments);
         }
+
     });
 </script>
