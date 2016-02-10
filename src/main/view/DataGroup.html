@@ -18,7 +18,7 @@
     Polymer({
         is: 'data-group',
 
-        components: {},
+//        components: {},
 
         behaviors: [FieldBehaviors.NotifyReadyBehavior],
 
@@ -31,11 +31,27 @@
                 notify: true,
                 value: function() { return {} },
                 observer: '_onValue'
+            },
+
+            components: {
+                type: Object,
+                value: function() { return {} }
             }
         },
 
         listeners: {
             'component-ready': 'onComponentReady'
+        },
+
+        setDefaultValue: function() {
+            _.forIn(this.components, function(component, name) {
+                if (component.setDefaultValue) {
+                    component.setDefaultValue();
+                } else {
+                    component.value = null;
+                }
+            });
+
         },
 
         onComponentReady: function(e) {
@@ -59,9 +75,17 @@
         },
 
         _onValue(newValue, oldValue) {
-            console.log('_onValue', newValue, oldValue);
+            console.log('_onValue', this.name, newValue, oldValue);
             _.forIn(this.components, function(component, name) {
-                component.value = (newValue && newValue[name] || null);
+                if (this.value[name]) {
+                    component.value = this.value[name];
+                } else {
+                    if (component.setDefaultValue) {
+                        component.setDefaultValue();
+                    } else {
+                        component.value = null;
+                    }
+                }
             }.bind(this));
         }
     });
