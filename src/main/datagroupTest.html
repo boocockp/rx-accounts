@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Data Group Test</title>
 
+    <link rel="import" href="view/InputField.html">
+    <link rel="import" href="view/NumberField.html">
     <link rel="import" href="view/DataGroup.html">
 
     <style>
@@ -26,7 +28,8 @@
                     Label: <span>{{value.label}}</span>
                 </p>
                 <p>
-                    Input: <input type="text" value="{{value.text::change}}" />
+                    <input-field label="The Words" value="{{value.text}}" ></input-field>
+                    <number-field label="The Amount" value="{{value.amount}}" ></number-field>
                 </p>
             </template>
         </data-group>
@@ -35,13 +38,16 @@
 <script>
 
     var t1 = document.querySelector('#t1');
+    var dg1;
 
-    // The dom-change event signifies when the template has stamped its DOM.
     t1.addEventListener('dom-change', function() {
-        var dg1 = document.getElementById('dg1');
-        var theData = { label: "I'm a label!", text: 'What I say'};
-        dg1.value = theData;
+        dg1 = document.getElementById('dg1');
+        t1.theData = { label: "I'm a label!", text: 'My words', amount: 42.42};
+        dg1.addEventListener('value-changed', function(e) {
+            console.log('value-changed', e);
+        })
     });
+
 
 </script>
 

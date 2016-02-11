@@ -40,7 +40,7 @@
         },
 
         _getValue: function(el) {
-            return el.value.trim() ? parseInt(el.value) : null;
+            return el.value.trim() ? _.toNumber(el.value) : null;
         }
 
     });
