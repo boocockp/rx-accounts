@@ -3,7 +3,7 @@
 <dom-module id="data-group">
     <template>
         <div id="output"></div>
-        <content id="templates" select="template.d-group"></content>
+        <content id="templates" select="template"></content>
     </template>
 </dom-module>
 
@@ -26,7 +26,7 @@
         },
 
         ready: function() {
-            var template = Polymer.dom(this.$.templates).getDistributedNodes()[0];
+            var template = this.getContentChildren('#templates')[0];
             this.templatize(template);
 
             this.instance = this.stamp({});
@@ -34,11 +34,12 @@
         },
 
         _onValue: function(newValue, oldValue) {
-            this.instance && (this.instance.value = newValue);
+            console.log('_onValue', arguments);
+            this.instance && (this.instance['value'] = newValue);
         },
 
-        _forwardParentProp: function(prop, value){
-            console.warn('_forwardParentProp',arguments);
+        _forwardParentProp: function(prop, newValue){
+            console.log('_forwardParentProp',arguments);
         },
         _forwardParentPath: function(prop, value){
             console.warn('_forwardParentPath',arguments);

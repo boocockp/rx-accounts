@@ -6,6 +6,7 @@
 
     <link rel="import" href="view/InputField.html">
     <link rel="import" href="view/NumberField.html">
+    <link rel="import" href="view/SelectField.html">
     <link rel="import" href="view/DataGroup.html">
 
     <style>
@@ -30,6 +31,9 @@
                 <p>
                     <input-field label="The Words" value="{{value.text}}" ></input-field>
                     <number-field label="The Amount" value="{{value.amount}}" ></number-field>
+                    <select-field name="type" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' value="{{value.type}}"></select-field>
+                    <select-field name="type2" options='[ ["Debit", "DR"], ["Credit", "CR"] ]' value="CR"></select-field>
+
                 </p>
             </template>
         </data-group>
@@ -42,7 +46,7 @@
 
     t1.addEventListener('dom-change', function() {
         dg1 = document.getElementById('dg1');
-        t1.theData = { label: "I'm a label!", text: 'My words', amount: 42.42};
+        t1.theData = { label: "I'm a label!", text: 'My words', amount: 42.42, type: 'CR'};
         dg1.addEventListener('value-changed', function(e) {
             console.log('value-changed', e);
         })

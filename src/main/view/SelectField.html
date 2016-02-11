@@ -19,7 +19,7 @@
             <label>{{_label}}</label>
             <select id="select" name="{{name}}">
                 <template is="dom-repeat" items="[[_options]]">
-                    <option value="{{item.value}}"  selected="{{item.selected}}">{{item.label}}</option>
+                    <option value="{{item.value}}" selected="{{item.selected}}">{{item.label}}</option>
                 </template>
             </select>
         </div>
@@ -45,23 +45,18 @@
 
             _options: {
                 type: Array,
-                computed: 'computeOptions(options)'
+                computed: 'computeOptions(options, value)'
             }
 
         },
-
-        observers: [
-            '_notifyReady(name, value, options)'
-        ],
 
         _onValue: function(value) {
             this.$.select.value = value;
         },
 
-        computeOptions: function (options) {
-            var self = this;
+        computeOptions: function (options, value) {
             var labelValues = options.map(function (opt) {
-                return {label: opt[0], value: opt[1], selected: opt[1] == self.value}
+                return {label: opt[0], value: opt[1], selected: opt[1] == value}
             });
 
             if (typeof this.value === 'undefined') {
