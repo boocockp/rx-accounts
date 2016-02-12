@@ -20,7 +20,7 @@
             value: {
                 type: Object,
                 notify: true,
-                value: function() { return {} },
+                value: function() { return {_x: 1} },
                 observer: '_onValue'
             }
         },
@@ -31,10 +31,12 @@
 
             this.instance = this.stamp({});
             Polymer.dom(this.$.output).appendChild(this.instance.root);
+            this.value = Object.assign({}, this.value );
+            console.log('data-group', 'ready', 'done');
         },
 
         _onValue: function(newValue, oldValue) {
-            console.log('_onValue', arguments);
+            console.log('data-group', '_onValue', arguments);
             this.instance && (this.instance['value'] = newValue);
         },
 
@@ -42,7 +44,7 @@
             console.log('_forwardParentProp',arguments);
         },
         _forwardParentPath: function(prop, value){
-            console.warn('_forwardParentPath',arguments);
+            console.log('_forwardParentPath',arguments);
         },
 
         _forwardInstanceProp: function(inst, prop, value) {

@@ -24,6 +24,10 @@
             change: 'onChange'
         },
 
+        _onValue: function(value, oldValue) {
+            console.log(this.tagName.toLowerCase(), '_onValue', value, oldValue);
+        },
+
         onChange: function(e) {
             console.log(this.tagName.toLowerCase() + " change", e);
             this.value = this._getValue(e.target);

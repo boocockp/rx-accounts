@@ -23,7 +23,8 @@
     <h3>Data Group Test</h3>
 
     <template is="dom-bind" id="t1">
-        <data-group id="dg1" name="group1" value="{{theData}}">
+        <!--<data-group id="dg1" name="group1" value='{ "label": "a label!", "text": "My words", "amount": 42.42, "type": "CR"} }'>-->
+        <data-group id="dg1" name="group1" value='{{theData}}'>
             <template class="d-group">
                 <p>
                     Label: <span>{{value.label}}</span>
@@ -46,7 +47,8 @@
 
     t1.addEventListener('dom-change', function() {
         dg1 = document.getElementById('dg1');
-        t1.theData = { label: "I'm a label!", text: 'My words', amount: 42.42, type: 'CR'};
+//        t1.theData = { label: "I'm a label!", text: 'My words', amount: 42.42, type: 'CR'};
+//        t1.theData = {};
         dg1.addEventListener('value-changed', function(e) {
             console.log('value-changed', e);
         })

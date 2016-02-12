@@ -36,7 +36,8 @@
             value: {
                 type: String,
                 notify: true,
-                observer: '_onValue'
+                observer: '_onValue',
+                value: ''
             },
 
             options: {
@@ -50,7 +51,8 @@
 
         },
 
-        _onValue: function(value) {
+        _onValue: function(value, oldValue) {
+            console.log('select-field', '_onValue', value, oldValue);
             this.$.select.value = value;
         },
 

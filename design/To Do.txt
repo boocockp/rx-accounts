@@ -11,6 +11,7 @@ Improvements
 - Data List
 - Transaction entry view - take data direct from submit form updated value - postings in data list
 - Tran entry view - accountBals is computed property - better?
+- DataGroup value includes default and changed values from its components even if not initialised
 
 Done
 ----
